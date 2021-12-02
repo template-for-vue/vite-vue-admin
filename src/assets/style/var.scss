@@ -1,0 +1,36 @@
+body {
+
+    --el-border-radius-base: 1.5px;
+    --el-popover-border-radius: 1.5px;
+    --el-disabled-border-base: transparent;
+    --el-disabled-color-base: #e1e1e1;
+    --el-input-background-color: #f2f3f5;
+    --el-background-color-base: #f7f8fa;
+    //--el-color-primary: #0960bd;
+    --el-color-primary: #2c52b5;
+
+    --color-white: var(--el-color-white);
+    --color-black: #252c32;
+
+    --color-primary: var(--el-color-primary);
+    --color-success: var(--el-color-success);
+    --color-warning: var(--el-color-warning);
+    --color-danger: var(--el-color-danger);
+    --color-error: var(--el-color-error);
+    --color-info: var(--el-color-info);
+
+    --color-border-sep: var(--el-border-color-lighter);
+
+    --color-page-background: #f7f8fa;
+
+    --text-color-primary: var(--el-text-color-primary);
+    --text-color-secondary: var(--el-text-color-secondary);
+
+    --hover-color-primary: var(--el-border-color-lighter);
+    --hover-color-input: rgb(229, 230, 235);
+}
+
+.el-textarea,
+.el-input {
+    --el-input-bg-color: #f2f3f5
+}

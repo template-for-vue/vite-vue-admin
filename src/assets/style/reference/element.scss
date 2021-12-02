@@ -1,0 +1,45 @@
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+    $colors:(
+        "primary":(
+          "base":#2c52b5
+        )
+    ),
+    $button-border-radius:(
+        'small':var(--el-border-radius-base),
+        'mini':var(--el-border-radius-base)
+    ),
+    $button-padding-vertical:(
+        'small':8px
+    ),
+    $button-padding-horizontal:(
+        'small':16px
+    ),
+    $button-font-size:(
+         'small':14px
+    ),
+    $input:(
+        'border':var(--el-border-width-base) var(--el-border-style-base) transparent,
+        'hover-border':transparent,
+    ),
+    $input-font-size:(
+        'small':14px
+    ),
+
+    $switch:(
+        'width':40px,
+        'height': 24px
+    ),
+
+    $tag:(
+        'border-radius':var(--el-border-radius-base),
+    ),
+
+    $table:(
+        'font-color':var(--el-text-color-primary)
+    ),
+
+    $popover:(
+        'padding':0,
+        'border-radius':var(--el-border-radius-base)
+    )
+);

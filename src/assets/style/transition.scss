@@ -1,0 +1,48 @@
+//name = fade
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+// name = fade-slide
+.fade-slide-leave-active,
+.fade-slide-enter-active {
+    position: relative;
+    transition: all 0.08s;
+}
+
+.fade-slide-enter-from {
+    opacity: 0;
+    transform: translateX(-30px);
+}
+
+.fade-slide-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+
+//name = fade-in-out
+.fade-in-out-enter-active,
+.fade-in-out-leave-active {
+    will-change: opacity;
+    transition: opacity .3s ease;
+    transition-delay: .05s;
+}
+
+.fade-in-out-enter-from {
+    opacity: 0;
+}
+
+.fade-in-out-enter-to {
+    opacity: 1
+}
+
+.fade-in-out-leave-to {
+    opacity: 0;
+}

@@ -1,0 +1,98 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center, button,
+dl, dt, dd, ol, ul, li,
+form, label,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    outline: none;
+    font-size: 14px;
+}
+
+body {
+    color: rgba(0, 0, 0, .85);
+    //font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, noto sans, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-variant: tabular-nums;
+    line-height: 1.5715;
+    background-color: var(--color-page-background);
+    font-feature-settings: "tnum";
+}
+
+html, body {
+    height: 100%;
+}
+
+#app {
+    height: 100%;
+    overflow-x: hidden;
+    @include beauty-scroll;
+}
+
+*, :after, :before {
+    box-sizing: border-box;
+}
+:focus {
+    outline: none;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+a, i {
+    text-decoration: none;
+}
+
+
+input {
+    border: none;
+    outline: none;
+    /*清除移动端默认的表单样式*/
+    -webkit-appearance: none;
+}
+
+textarea {
+    font-family: 微软雅黑 Light, Arial;
+}
+
+input::placeholder {
+    color: #999;
+}
+
+textarea::placeholder {
+    color: #999;
+    font-family: 微软雅黑 Light, Arial;
+}
+
+
+//去掉 input type=number 的上下箭头
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+cite {
+    font-style: normal;
+}
+
+img, video {
+    max-width: 100%;
+    height: auto;
+}
+

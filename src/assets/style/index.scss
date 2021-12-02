@@ -1,0 +1,49 @@
+@import './var.scss';
+@import './reset.scss';
+@import './element-reset.scss';
+@import './component.scss';
+@import './transition.scss';
+
+
+// +----------------------------------------------------------------------
+// | 元素进入动画
+// +----------------------------------------------------------------------
+
+.-enter-x,
+.enter-x {
+    opacity: 0;
+    animation: enter-x-animation .4s ease-in-out .3s;
+    animation-fill-mode: forwards;
+}
+
+.-enter-x {
+    transform: translateX(-50px)
+}
+
+.enter-x {
+    transform: translateX(50px)
+}
+
+.-enter-x:nth-child(1),
+.enter-x:nth-child(1) {
+    animation-delay: .1s;
+}
+
+.-enter-x:nth-child(2),
+.enter-x:nth-child(2) {
+    animation-delay: .2s;
+}
+
+.-enter-x:nth-child(3),
+.enter-x:nth-child(3) {
+    animation-delay: .3s;
+}
+
+
+@keyframes enter-x-animation {
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+

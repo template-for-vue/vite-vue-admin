@@ -1,0 +1,4 @@
+export const DEFAULT_CACHE_TIME = 86400;
+export const DEFAULT_CACHE_PREFIX = 'TKE_CACHE__';
+export const LOCAL_CACHE_KEY = 'LOCAL_CACHE_KEY__';
+export const SESSION_CACHE_KEY = 'SESSION_CACHE_KEY__';
