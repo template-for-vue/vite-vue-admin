@@ -1,6 +1,7 @@
 <template>
     <div class="com-expand">
-        <com-icon name="tiny-loading" class="com-expand-icon com-expand-icon__loading" v-if="loading" color="var(--color-primary)"></com-icon>
+        <com-icon name="tiny-loading" class="com-expand-icon com-expand-icon__loading" v-if="loading"
+                  color="var(--color-primary)"></com-icon>
         <com-icon :name="isExpand ? 'collapse' : 'expand'" class="com-expand-icon" v-show="!loading"
                   color="var(--color-primary)"
                   @click="$emit('click')"></com-icon>

@@ -45,9 +45,11 @@ import {useLayout} from "/@/layout/hook/useLayout";
 import {useRouter} from "/@/shared/hooks/web/useRouter";
 import {getMenuCache, MenuItem} from "/@/service/AuthRuleService";
 import {Page} from "/@/router/page";
+import ComIcon from "/@/shared/components/Icon/ComIcon.vue";
 
 export default defineComponent({
     name: "LAYOUT_MENU",
+    components: {ComIcon},
     props: {
         unique: {
             type: Boolean,

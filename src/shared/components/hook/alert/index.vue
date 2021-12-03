@@ -22,9 +22,13 @@
 
 <script lang="ts">
 import {defineComponent, ref} from 'vue';
+import {ElDialog, ElButton} from 'element-plus';
 
 const noop = () => true;
 export default defineComponent({
+    components: {
+        ElDialog, ElButton
+    },
     inheritAttrs: false,
     props: {
         message: String,

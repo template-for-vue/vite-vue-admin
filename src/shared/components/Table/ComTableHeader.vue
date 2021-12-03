@@ -55,7 +55,8 @@
                                             <div class="com-table-settings__icon-wrap">
                                                 <com-icon name="move"></com-icon>
                                             </div>
-                                            <el-checkbox :key="element.prop" :label="element.prop">{{element.label}}</el-checkbox>
+                                            <el-checkbox :key="element.prop" :label="element.prop">{{ element.label }}
+                                            </el-checkbox>
                                         </div>
                                     </template>
                                 </draggable>
@@ -74,10 +75,13 @@ import type {PropType} from 'vue';
 import Draggable from 'vuedraggable';
 import {TableCol, TableSize} from "/@/shared/components/Table/types/table";
 import {isFunction} from "/@/shared/components/Table/utils";
+import {
+    ElPopover, ElCheckbox, ElCheckboxGroup, ElDivider, ElTooltip
+} from 'element-plus'
 
 export default defineComponent({
     name: "ComTableHeader",
-    components: {Draggable},
+    components: {Draggable, ElPopover, ElCheckbox, ElCheckboxGroup, ElDivider, ElTooltip},
     emits: ['update:size', 'refresh'],
     props: {
         title: String,
@@ -140,13 +144,13 @@ export default defineComponent({
             }
         }
 
-        const handleCheckAll = (val:any) => {
+        const handleCheckAll = (val: any) => {
             checkedColumns.value = val ? unref(getColumnsPropsRef) : [];
             isIndeterminate.value = false;
             checkAll.value = val;
             setColumns()
         }
-        const handleCheckedColumnsChange = (value:any) => {
+        const handleCheckedColumnsChange = (value: any) => {
             const checkedCount = value.length;
             checkAll.value = checkedCount === unref(getColumnsPropsRef).length;
             isIndeterminate.value = checkedCount > 0 && checkedCount < props.columns!.length;
@@ -267,7 +271,7 @@ export default defineComponent({
 
 .com-table-settings__column-reset {
     margin-left: 14px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .com-table-settings__column-list {

@@ -33,10 +33,17 @@ import {defineComponent, ref} from 'vue';
 import type {PropType} from 'vue';
 import {useForm} from "/@/shared/components/Form/hooks/useForm";
 import {isBoolean} from "/@/shared/utils/is";
+import {ElDialog, ElButton} from 'element-plus';
+import ComForm from "/@/shared/components/Form/ComForm.vue";
 
 const noop = () => true;
 export default defineComponent({
     inheritAttrs: false,
+    components: {
+        ComForm,
+        ElDialog,
+        ElButton
+    },
     props: {
         label: String,
         placeholder: String,
@@ -68,8 +75,8 @@ export default defineComponent({
             default: 'small'
         },
         autoClose: {
-            type:Boolean,
-            default:false
+            type: Boolean,
+            default: false
         },
         onPopOk: {
             type: Function,

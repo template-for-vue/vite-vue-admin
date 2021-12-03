@@ -102,10 +102,12 @@ import {
 } from "/@/shared/components/Table/types/table";
 import {isFunction} from "/@/shared/components/Table/utils";
 import {useConfirm} from "/@/shared/components/hook/confirm/useConfirm";
+import {ElTableColumn, ElTag, ElButton, ElInput} from 'element-plus';
 
 export default defineComponent({
     name: "ComTableItem",
     inheritAttrs: false,
+    components: {ElTableColumn, ElTag, ElButton, ElInput},
     props: {
         tableProps: {
             type: Object as PropType<TableProps>,

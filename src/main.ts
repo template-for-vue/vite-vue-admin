@@ -2,10 +2,9 @@ import {createApp} from 'vue'
 import App from './App.vue'
 import router, {setupRouter} from './router';
 import 'virtual:svg-icons-register';
-
-import '/@/assets/style/index.scss';
 import {setupElementPlus} from "/@/shared/element-plus";
 import {setupCache} from "/@/shared/cache";
+import '/@/assets/style/index.scss';
 
 const app = createApp(App);
 

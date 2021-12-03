@@ -1,14 +1,14 @@
 import type {Plugin} from 'vite';
-import vue from '@vitejs/plugin-vue'
-import legacy from '@vitejs/plugin-legacy'
+import vue from '@vitejs/plugin-vue';
+import legacy from '@vitejs/plugin-legacy';
 // import { visualizer } from 'rollup-plugin-visualizer';
 import {configHtmlPlugin} from "./configHtmlPlugin";
 import {configCompressPlugin} from "./configCompressPlugin";
 import {configImageminPlugin} from "./configImageminPlugin";
-import {configUnpluginComponentPlugin} from "./configUnpluginComponentPlugin";
 import {configIconPlugin} from "./configIconPlugin";
-import {configAutoImportPlugin} from "./configAutoImportPlugin";
 import {configMockPlugin} from "./configMockPlugin";
+import {configUnpluginComponentPlugin} from "./configUnpluginComponentPlugin";
+import {configStyleImport} from "./configStyleImport";
 
 export const createVitePlugins = (viteEnv: ViteEnv, isBuild: boolean) => {
 
@@ -33,8 +33,8 @@ export const createVitePlugins = (viteEnv: ViteEnv, isBuild: boolean) => {
     //unplugin-vue-component
     vitePlugins.push(configUnpluginComponentPlugin());
 
-    //unplugin-auto-import
-    vitePlugins.push(configAutoImportPlugin())
+    //vite-plugin-style-import
+    vitePlugins.push(configStyleImport(isBuild))
 
     //vite-plugin-svg-icons
     vitePlugins.push(configIconPlugin())

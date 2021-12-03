@@ -1,6 +1,6 @@
 <template>
     <div class="com-layout" :class="{'is-collapsed':isCollapsed}">
-        <el-aside class="com-layout-aside">
+        <ElAside class="com-layout-aside">
             <div class="com-layout-logo">
                 <com-icon name="semi" size="32" color="white" v-show="isCollapsed"></com-icon>
                 <span v-show="!isCollapsed">业务管理系统</span>
@@ -8,7 +8,7 @@
             <div class="com-layout-aside__scroll">
                 <Menu></Menu>
             </div>
-        </el-aside>
+        </ElAside>
         <div class="com-layout-content">
             <Header></Header>
             <div ref="tabAndMainRef" class="com-layout-main__wrap">
@@ -19,9 +19,14 @@
                         <suspense>
                             <template #default>
                                 <transition name="fade-slide" mode="out-in" appear @before-enter="beforeEnter">
-                                    <!--                                    <keep-alive :include="visitedViews">-->
-                                    <component class="com-page" :is="Component"/>
-                                    <!--                                    </keep-alive>-->
+                                    <template v-if="isDevMode">
+                                        <component class="com-page" :is="Component"/>
+                                    </template>
+                                    <template v-else>
+                                        <keep-alive :include="visitedViews">
+                                            <component class="com-page" :is="Component"/>
+                                        </keep-alive>
+                                    </template>
                                 </transition>
                             </template>
                             <template #fallback>
@@ -46,10 +51,14 @@ import {useLayout} from "/@/layout/hook/useLayout";
 import {useVisitedViews} from "/@/layout/hook/useVisitedViews";
 import {useRouter} from "/@/shared/hooks/web/useRouter";
 import {useFullScreen} from "/@/shared/hooks/web/useFullScreen";
+import {ElAside} from 'element-plus';
+import ComIcon from "/@/shared/components/Icon/ComIcon.vue";
+import ComLoading from "/@/shared/components/Loading/ComLoading.vue";
+import {isDevMode} from "/@/shared/utils/env";
 
 export default defineComponent({
     name: "Layout",
-    components: {Menu, Header, Tabs},
+    components: {Menu, Header, Tabs, ElAside, ComIcon, ComLoading},
     setup() {
         const {getCollapseState, getPageLoadingState, setPageLoadingState} = useLayout();
         const isCollapsed = computed(() => getCollapseState());
@@ -81,7 +90,8 @@ export default defineComponent({
             loading,
             beforeEnter,
             tabAndMainRef,
-            handleFullScreen
+            handleFullScreen,
+            isDevMode:isDevMode()
         }
     }
 })

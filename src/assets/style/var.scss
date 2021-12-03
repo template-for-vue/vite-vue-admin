@@ -30,7 +30,9 @@ body {
     --hover-color-input: rgb(229, 230, 235);
 }
 
-.el-textarea,
-.el-input {
-    --el-input-bg-color: #f2f3f5
+.com-body{
+    .el-textarea,
+    .el-input {
+        --el-input-bg-color: #f2f3f5;
+    }
 }

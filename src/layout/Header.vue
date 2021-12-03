@@ -66,9 +66,12 @@ import defaultAvatar from '/@/assets/logo.png';
 import {useLayout} from "/@/layout/hook/useLayout";
 import {useFullScreen} from "/@/shared/hooks/web/useFullScreen";
 import {getUserInfoStore} from "/@/service/AuthRuleService";
+import {ElPopover} from 'element-plus';
+import ComIcon from "/@/shared/components/Icon/ComIcon.vue";
 
 export default defineComponent({
     name: "LAYOUT_HEADER",
+    components: {ComIcon, ElPopover},
     setup() {
 
         const {getCollapseState, setCollapseState} = useLayout()

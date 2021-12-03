@@ -142,9 +142,52 @@ import {
     RenderCallbackParams
 } from "/@/shared/components/Form/types/form";
 import {isArray, isBoolean, isFunction} from "/@/shared/components/Form/utils";
+import {
+    ElCol,
+    ElFormItem,
+    ElTooltip,
+    ElInput,
+    ElInputNumber,
+    ElSelect,
+    ElOptionGroup,
+    ElOption,
+    ElCheckbox,
+    ElCheckboxButton,
+    ElCheckboxGroup,
+    ElRadio,
+    ElRadioButton,
+    ElRadioGroup,
+    ElSwitch,
+    //@ts-ignore
+    ElCascader,
+    ElDatePicker,
+    ElTimePicker,
+    ElDivider,
+} from  'element-plus';
 
 export default defineComponent({
     name: "ComFormItem",
+    components:{
+        ElCol,
+        ElFormItem,
+        ElTooltip,
+        ElInput,
+        ElInputNumber,
+        ElSelect,
+        ElOptionGroup,
+        ElOption,
+        ElCheckbox,
+        ElCheckboxButton,
+        ElCheckboxGroup,
+        ElRadio,
+        ElRadioButton,
+        ElRadioGroup,
+        ElSwitch,
+        ElCascader,
+        ElDatePicker,
+        ElTimePicker,
+        ElDivider
+    },
     inheritAttrs: false,
     props: {
         schema: {

@@ -92,10 +92,22 @@ import {usePagination} from "/@/shared/components/Table/hooks/usePagination";
 import {useHeader} from "/@/shared/components/Table/hooks/useHeader";
 import {useForm} from "/@/shared/components/Form/hooks/useForm";
 import {FormSchema} from "/@/shared/components/Form/types/form";
+import {
+    ElTable,
+    ElTableColumn,
+    ElPagination,
+    ElButton
+} from 'element-plus';
 
 export default defineComponent({
     name: "ComTable",
     inheritAttrs: false,
+    components: {
+        ElTable,
+        ElTableColumn,
+        ElPagination,
+        ElButton
+    },
     emits: ['register'],
     setup(props, {emit, slots}) {
 
@@ -341,17 +353,19 @@ export default defineComponent({
 <style lang="scss">
 .com-table {
     width: 100%;
+
     .el-table__expand-icon {
         display: none;
     }
+
     .el-table__header,
-    .el-table__body{
+    .el-table__body {
         width: unset !important;
         min-width: 100%;
         table-layout: fixed;
     }
 
-    .el-table__empty-block{
+    .el-table__empty-block {
         width: unset !important;
     }
 

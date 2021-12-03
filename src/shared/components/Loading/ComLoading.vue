@@ -7,8 +7,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType, CSSProperties } from 'vue';
-import { LoadingSize } from '/@/shared/components/Loading/types';
+import {defineComponent, computed, PropType, CSSProperties} from 'vue';
+import {LoadingSize} from '/@/shared/components/Loading/types';
 
 export default defineComponent({
     name: 'ComLoading',
@@ -40,16 +40,16 @@ export default defineComponent({
     setup(props) {
         const getStyle = computed(
             (): CSSProperties => {
-                const { background, theme } = props;
+                const {background, theme} = props;
                 const bgColor = background
                     ? background
                     : theme === 'dark'
                         ? 'rgba(0, 0, 0, 0.2)'
                         : 'rgba(240, 242, 245, 0.4)';
-                return { background: bgColor };
+                return {background: bgColor};
             }
         );
-        return { getStyle };
+        return {getStyle};
     }
 });
 </script>

@@ -55,9 +55,12 @@ import {isNullOrUnDef} from "/@/shared/utils/is";
 import {useFullScreen} from "/@/shared/hooks/web/useFullScreen";
 import {useSetting} from "/@/shared/setting/hook/useSetting";
 import {getAuthCache} from "/@/service/AuthRuleService";
+import {ElPopover} from 'element-plus';
+import ComIcon from "/@/shared/components/Icon/ComIcon.vue";
 
 export default defineComponent({
     name: "LayoutTabs",
+    components: {ElPopover,ComIcon},
     emits: ['fullscreen'],
     setup(_props, {emit}) {
 

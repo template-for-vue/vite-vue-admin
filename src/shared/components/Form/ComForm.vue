@@ -28,10 +28,12 @@ import {FormActionType, FormProps, FormSchema} from "/@/shared/components/Form/t
 import {deepMerge, isBoolean} from "/@/shared/components/Form/utils";
 import {useFormValues} from "/@/shared/components/Form/hooks/useFormValues";
 import {useFormEvents} from "/@/shared/components/Form/hooks/useFormEvents";
+import {ElForm, ElRow} from 'element-plus';
 
 export default defineComponent({
     name: "ComForm",
     inheritAttrs: false,
+    components: {ElForm, ElRow},
     emits: ['register', 'submit', 'reset'],
     setup(props, {emit}) {
 

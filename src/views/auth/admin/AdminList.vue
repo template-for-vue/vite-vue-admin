@@ -25,6 +25,7 @@ import UpdateAdminPop from "/@/views/auth/admin/UpdateAdminPop.vue";
 export default defineComponent({
     name: Page.AUTH_ADMIN_LIST,
     async setup() {
+
         // +----------------------------------------------------------------------
         // | 获取常量
         // +----------------------------------------------------------------------

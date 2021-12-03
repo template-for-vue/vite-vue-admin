@@ -28,10 +28,12 @@
 
 <script lang="ts">
 import {defineComponent, ref} from 'vue';
+import {ElDialog, ElButton} from 'element-plus';
 
 const noop = () => true;
 export default defineComponent({
     inheritAttrs: false,
+    components: {ElDialog, ElButton},
     props: {
         message: String,
         width: {
@@ -52,8 +54,8 @@ export default defineComponent({
         },
         cancelType: String,
         autoClose: {
-            type:Boolean,
-            default:false
+            type: Boolean,
+            default: false
         },
         buttonSize: {
             type: String,
