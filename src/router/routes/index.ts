@@ -2,6 +2,7 @@ import {AppRouteRecordRaw} from "/#/router";
 import {Page} from "/@/router/page";
 import PAGE_LAYOUT from '/@/layout/Index.vue';
 import PAGE_LOGIN from '/@/views/login/Login.vue';
+import {Error404Route} from "/@/router/routes/modules/error";
 
 let routeModuleList: AppRouteRecordRaw[] = [];
 const modules = import.meta.globEager('./modules/**/*.ts');
@@ -13,7 +14,7 @@ Object.keys(modules).forEach((key) => {
 
 const RootRoute: AppRouteRecordRaw = {
     path: Page.ROOT,
-    redirect: Page.DASHBOARD_WELCOME
+    redirect: Page.LOGIN
 }
 const LoginRoute: AppRouteRecordRaw = {
     path: Page.LOGIN,
@@ -26,15 +27,15 @@ const pageRoute: AppRouteRecordRaw = {
     children: routeModuleList
 }
 
-// const unMatchRoute: AppRouteRecordRaw = {
-//     path: Page.UN_MATCH,
-//     redirect: ''
-// }
+const unMatchRoute: AppRouteRecordRaw = {
+    path: Page.UN_MATCH,
+    redirect: Error404Route
+}
 
 
 export const basicRoutes = [
     RootRoute,
     LoginRoute,
     pageRoute,
-    // unMatchRoute
+    unMatchRoute
 ];

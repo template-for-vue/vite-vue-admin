@@ -9,7 +9,20 @@
     <title><%= title %></title>
 </head>
 <body class="com-body">
-<div id="app"></div>
+<div id="app">
+    <style>
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            width: 100%;
+            height: 100%;
+            background: #2b51b4;
+        }
+    </style>
+    <div class="preloader"></div>
+</div>
 <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

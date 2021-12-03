@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import {defineComponent, ref} from 'vue';
 import {useTable} from "/@/shared/components/Table/hooks/useTable";
 import {FormProps} from "/@/shared/components/Form/types/form";
 import {getDictionaryValueMapStore, getDictionaryValueStore} from "/@/service/DictionaryService";
@@ -25,7 +25,6 @@ import UpdateAdminPop from "/@/views/auth/admin/UpdateAdminPop.vue";
 export default defineComponent({
     name: Page.AUTH_ADMIN_LIST,
     async setup() {
-
         // +----------------------------------------------------------------------
         // | 获取常量
         // +----------------------------------------------------------------------

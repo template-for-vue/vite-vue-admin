@@ -16,7 +16,7 @@ export default [
         url: '/isLogin',
         method: 'get',
         response: ({query}: any) => {
-            return resultSuccess(!!(query && query.params && JSON.parse(query.params)?.ticket));
+            return resultSuccess(!!(query && query.params && JSON.parse(query.params)?.ticket)? 1 : 2);
         }
     }, {
         url: '/login',
