@@ -6,12 +6,12 @@
 
 <script lang="ts">
 import {defineComponent} from 'vue';
-export default defineComponent({
-    name: "",
-    async setup() {
-        return {
+import {Page} from "/@/router/page";
 
-        }
+export default defineComponent({
+    name: Page.DASHBOARD_WELCOME,
+    async setup() {
+        return {}
     }
 })
 

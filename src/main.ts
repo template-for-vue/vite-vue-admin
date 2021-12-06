@@ -6,6 +6,7 @@ import {setupElementPlus} from "/@/shared/element-plus";
 import {setupCache} from "/@/shared/cache";
 import '/@/assets/style/index.scss';
 import {setupDirectives} from "/@/shared/directives";
+import {setupErrorHandler} from "/@/shared/error-handler";
 
 const app = createApp(App);
 
@@ -17,6 +18,8 @@ setupElementPlus(app);
 setupRouter(app);
 // setup directive
 setupDirectives(app);
+// setup error handler
+setupErrorHandler(app);
 
 router.isReady().then(() => {
     app.mount('#app');

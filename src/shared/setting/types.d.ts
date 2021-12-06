@@ -9,7 +9,7 @@ export interface ProjectSetting {
     // pageLayout是否开启keep-alive
     openKeepAlive: boolean;
     // 使用error-handler-plugin
-    useErrorHandle: boolean;
+    useErrorHandler: boolean;
     // 是否开启登录安全校验
     openLoginVerify: boolean;
     // 切换界面的时候是否取消已经发送但是未响应的http请求。

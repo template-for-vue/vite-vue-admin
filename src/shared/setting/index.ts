@@ -13,8 +13,8 @@ const projectSetting: ProjectSetting = {
     // 是否开启KeepAlive缓存  开发时候最好关闭,不然每次都需要清除缓存
     openKeepAlive: true,
 
-    // 使用error-handler-plugin
-    useErrorHandle: true,
+    // 使用error-handler
+    useErrorHandler: true,
 
     // 是否开启登录安全校验
     openLoginVerify: true,
