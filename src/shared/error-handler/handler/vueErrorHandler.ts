@@ -2,6 +2,7 @@ import {addErrorLogInfo} from "/@/service/ErrorLogService";
 import {ErrorTypeEnum} from "/@/shared/error-handler/enums";
 import {processStackMessage} from "/@/shared/error-handler/utils";
 import {isDevMode} from "/@/shared/utils/env";
+import {isString} from "/@/shared/utils/is";
 
 function formatComponentName(vm: any) {
     if (vm.$root === vm) {
@@ -26,6 +27,7 @@ function formatComponentName(vm: any) {
 }
 
 export function vueErrorHandler(err: Error, vm: any, info: string) {
+    if(isString(err)) return;
     const {name, path} = formatComponentName(vm);
     if(isDevMode()){
         console.error(err);

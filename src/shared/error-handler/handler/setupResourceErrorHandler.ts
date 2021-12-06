@@ -5,8 +5,8 @@ export const setupResourceErrorHandler = () => {
     window.addEventListener(
         'error',
         function (event: Event) {
-
             const target = event.target ? event.target : (event.srcElement as any);
+            if (target === window) return;
             addErrorLogInfo({
                 type: ErrorTypeEnum.RESOURCE,
                 name: 'Resource Error!',

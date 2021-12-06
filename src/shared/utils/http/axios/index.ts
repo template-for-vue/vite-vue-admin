@@ -14,6 +14,7 @@ import {Page} from '/@/router/page';
 import {getTicketStore} from "/@/service/AuthRuleService";
 import {useAlert} from "/@/shared/components/hook/alert/useAlert";
 import {useMessage} from "/@/shared/components/hook/useMessage/useMessage";
+import {addHttpErrorInfo} from "/@/service/ErrorLogService";
 
 const {createAlert} = useAlert();
 const {createErrorMessage, createSuccessMessage} = useMessage();
@@ -113,6 +114,7 @@ const transform: AxiosTransform = {
     responseInterceptorsCatch: (error: any) => {
         const {code, message} = error || {};
         const err: string = error.toString();
+        addHttpErrorInfo(error);
         try {
             if (code === 'ECONNABORTED' && ~message.indexOf('timeout')) {
                 createErrorMessage('请求超时,请刷新重试!');
