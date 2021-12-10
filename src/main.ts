@@ -6,8 +6,7 @@ import {setupElementPlus} from "/@/shared/element-plus";
 import {setupCache} from "/@/shared/cache";
 import '/@/assets/style/index.scss';
 import {setupDirectives} from "/@/shared/directives";
-import {setupErrorHandler} from "/@/shared/error-handler";
-
+import {setupErrorHandler} from 'vue-error-recorder';
 const app = createApp(App);
 
 //setup cache

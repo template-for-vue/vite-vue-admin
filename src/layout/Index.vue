@@ -132,7 +132,7 @@ export default defineComponent({
     height: calc(100vh - var(--header-height));
     overflow-y: scroll;
     overflow-x: hidden;
-    @include beauty-scroll
+    @include beauty-scroll-thin
 }
 
 .com-layout-logo {
@@ -169,9 +169,8 @@ export default defineComponent({
     padding: 10px;
     flex: 1 1 auto;
     height: calc(100vh - var(--header-height) - var(--nav-height));
-    min-width: 800px;
-    @include beauty-scroll;
     overflow: auto;
+    @include beauty-scroll;
 }
 
 .com-layout.is-collapsed {

@@ -2,9 +2,8 @@
     <div>
         <com-description @register="register">
             <template #emailLabelSlot>自定义email标题</template>
-            <template #emailContentSlot>自定义email内容</template>
-            <template #extra>
-                <el-button type="primary">状态设置</el-button>
+            <template #emailContentSlot>
+                <el-button type="primary" @click="getError">点击</el-button>
             </template>
         </com-description>
     </div>
@@ -14,7 +13,7 @@
 import {defineComponent} from 'vue';
 import {Page} from "/@/router/page";
 import {useDescription} from "/@/shared/components/Description/hooks/useDescription";
-
+import {getErrorInfo} from  "vue-error-recorder";
 export default defineComponent({
     name: Page.DASHBOARD_WELCOME,
     async setup() {
@@ -57,13 +56,15 @@ export default defineComponent({
             tag: 'orange',
         }
         const [register] = useDescription({
-            title:'用户信息',
             schema,
             dataSource
         })
 
         return {
-            register
+            register,
+            getError(){
+                console.log(getErrorInfo())
+            }
         }
     }
 })

@@ -14,7 +14,7 @@ import {Page} from '/@/router/page';
 import {getTicketStore} from "/@/service/AuthRuleService";
 import {useAlert} from "/@/shared/components/hook/alert/useAlert";
 import {useMessage} from "/@/shared/components/hook/useMessage/useMessage";
-import {addHttpErrorInfo} from "/@/service/ErrorLogService";
+import {addHttpErrorInfo} from "vue-error-recorder";
 
 const {createAlert} = useAlert();
 const {createErrorMessage, createSuccessMessage} = useMessage();
@@ -120,7 +120,7 @@ const transform: AxiosTransform = {
                 createErrorMessage('请求超时,请刷新重试!');
             }
             if (err && err.includes('Network Error')) {
-                return createAlert({ message: '请检查您的网络连接是否正常' });
+                return createAlert({message: '请检查您的网络连接是否正常'});
             }
         } catch (e) {
             throw new Error(error);

@@ -6,6 +6,7 @@ export default [
     {
         url: '/selectAdminPage',
         method: 'get',
+        // statusCode:500,
         response: ({query}: any) => {
             const params = query?.params ? JSON.parse(query.params) : {};
             const {value, state: query_state, role_id} = params;
