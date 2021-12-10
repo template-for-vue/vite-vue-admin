@@ -7,6 +7,8 @@ import {setupCache} from "/@/shared/cache";
 import '/@/assets/style/index.scss';
 import {setupDirectives} from "/@/shared/directives";
 import {setupErrorHandler} from 'vue-error-recorder';
+import {useSetting} from "/@/shared/setting/hook/useSetting";
+
 const app = createApp(App);
 
 //setup cache
@@ -18,7 +20,8 @@ setupRouter(app);
 // setup directive
 setupDirectives(app);
 // setup error handler
-setupErrorHandler(app);
+const {projectSetting: {useErrorHandler}} = useSetting();
+useErrorHandler && setupErrorHandler(app);
 
 router.isReady().then(() => {
     app.mount('#app');

@@ -19,8 +19,7 @@ import {addHttpErrorInfo} from "vue-error-recorder";
 const {createAlert} = useAlert();
 const {createErrorMessage, createSuccessMessage} = useMessage();
 const {navigateTo} = useRouter();
-const {globSetting} = useSetting();
-
+const {globSetting, projectSetting: {useErrorHandler}} = useSetting();
 const transform: AxiosTransform = {
 
     /**
@@ -114,7 +113,7 @@ const transform: AxiosTransform = {
     responseInterceptorsCatch: (error: any) => {
         const {code, message} = error || {};
         const err: string = error.toString();
-        addHttpErrorInfo(error);
+        useErrorHandler && addHttpErrorInfo(error);
         try {
             if (code === 'ECONNABORTED' && ~message.indexOf('timeout')) {
                 createErrorMessage('请求超时,请刷新重试!');
