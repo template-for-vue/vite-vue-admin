@@ -39,17 +39,16 @@ export const useDialog = (options: UseDialogContext) => {
                         default: () => {
                             options.component.inheritAttrs = false;
                             const render = options.component.render;
-                            options.component.render = (vm:any) =>{
+                            options.component.render = function(vm:any){
                                 setTimeout(() => {
                                     getComponentActions.value = {
                                         onOk: vm?.ok,
                                         onCancel: vm?.cancel
                                     };
                                 }, 0)
-                                return render(vm);
+                                return render(...arguments);
                             }
                             return h(options.component, attrs);
-
                         }
                     }
                 )

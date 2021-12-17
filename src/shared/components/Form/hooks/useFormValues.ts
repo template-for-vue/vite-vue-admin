@@ -1,10 +1,9 @@
-import type {ComputedRef, Ref} from "vue";
+import type {ComputedRef} from "vue";
 import {unref} from "vue";
 import {FormProps, FormSchema} from "/@/shared/components/Form/types/form";
 import {isArray, isFunction, isNullOrUnDef, isObject, isString} from "/@/shared/components/Form/utils";
 
 interface UseFormValuesContext {
-    defaultValueRef?: Ref<any>;
     getSchema?: ComputedRef<FormSchema[]>;
     getProps?: ComputedRef<FormProps>;
     formModel: Recordable;
@@ -43,7 +42,6 @@ export const useFormValues = ({getSchema, getProps, formModel}: UseFormValuesCon
 
     const initDefault = () => {
         const schemas = (unref(getSchema) || []) as FormSchema[];
-        const res: Recordable = {};
         schemas.forEach(schema => {
             let {defaultValue = '', prop} = schema;
 
@@ -63,9 +61,7 @@ export const useFormValues = ({getSchema, getProps, formModel}: UseFormValuesCon
                     break;
             }
             if (!isNullOrUnDef(defaultValue) && prop) {
-                const value = unref(getProps)?.formModel?.[prop] ?? defaultValue;
-                res[prop] = value;
-                formModel[prop] = value;
+                formModel[prop] = unref(getProps)?.formModel?.[prop] ?? defaultValue;
             }
         })
     }

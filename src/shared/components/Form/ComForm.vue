@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import type {Ref} from 'vue';
+import {Ref, toRaw, watch} from 'vue';
 import {computed, defineComponent, reactive, ref, unref} from 'vue';
 import {FormActionType, FormProps, FormSchema} from "/@/shared/components/Form/types/form";
 import {deepMerge, isBoolean} from "/@/shared/components/Form/utils";
@@ -34,7 +34,10 @@ export default defineComponent({
     name: "ComForm",
     inheritAttrs: false,
     components: {ElForm, ElRow},
-    emits: ['register', 'submit', 'reset'],
+    emits: ['register', 'submit', 'reset', 'update:modelValue'],
+    props: {
+        modelValue: Object
+    },
     setup(props, {emit}) {
 
         // +----------------------------------------------------------------------
@@ -50,7 +53,7 @@ export default defineComponent({
         // +----------------------------------------------------------------------
 
         const getProps = computed((): FormProps => {
-            return {...props, ...unref(propsRef)} as FormProps;
+            return {formModel: props.modelValue, ...unref(propsRef)} as FormProps;
         })
 
         const getSchema = computed((): FormSchema[] => {
@@ -131,6 +134,17 @@ export default defineComponent({
                 emit('submit', getFieldsValue())
             }
         }
+
+        watch(
+            () => formModel,
+            () => {
+                emit('update:modelValue', toRaw(formModel))
+            },
+            {
+                immediate: true,
+                deep: true
+            }
+        )
 
         return {
             formElRef,
