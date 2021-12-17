@@ -86,6 +86,7 @@ export const useColumns = (
         if (!col.prop) {
             col.prop = 'col_' + (pIndex ? `${pIndex}_` : '') + currIndex;
         }
+        if(col.format && isFunction(col.format)) col.isFormat = true;
         col.columnKey = col.prop;
 
         //排序相关
@@ -130,7 +131,6 @@ export const useColumns = (
     const getViewColumns = computed(() => {
         const viewColumns = unref(viewColumnsRef);
         const columns: TableCol[] = deepClone(viewColumns);
-
         const bodyWidth = getTableRef()?.$el.offsetWidth;
         let width: Nullable<number> = null
         let count: number = 0
@@ -168,7 +168,7 @@ export const useColumns = (
         if (!isArray(columns)) return;
         const firstColumn = columns[0];
         if (columns.length > 0 && !isString(firstColumn)) {
-            columnsRef.value = columns
+            columnsRef.value = columns;
         } else {
             const columnKeys = columns as string[];
             const newColumns: TableCol[] = [];

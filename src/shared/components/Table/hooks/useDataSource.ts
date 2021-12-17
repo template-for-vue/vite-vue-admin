@@ -102,7 +102,7 @@ export const useDataSource = (
      */
     function handleDataItemByColumn(row: TableRow, col: TableCol, rowIndex: number) {
         const {originalValue, status, value} = getDataValues(row, col, rowIndex);
-        const key = col.prop!;
+        const key = col.isFormat ? `${col.prop!}_format` : col.prop!;
         if (status) {
             row[`${key}_status`] = status;
             row[`${key}_name`] = value;
