@@ -143,8 +143,10 @@ export const useDataSource = (
             if (!item[ROW_KEY]) {
                 item[ROW_KEY] = item[rowKey] || buildUUID();
             }
-            unref(getViewColumns)?.forEach((col: TableCol) => {
-                handleDataItemByColumn(item, col, rowIndex);
+            nextTick(() => {
+                unref(getViewColumns)?.forEach((col: TableCol) => {
+                    handleDataItemByColumn(item, col, rowIndex);
+                })
             })
             if (item.children && item.children.length) {
                 handleDataItem(item.children, rowKey);
