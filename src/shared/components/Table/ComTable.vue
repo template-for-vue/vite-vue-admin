@@ -1,6 +1,6 @@
 <template>
     <div :class="getTableClass">
-        <com-form @register="formRegister" @submit="handleSearch">
+        <com-form v-if="getProps.form" @register="formRegister" @submit="handleSearch">
             <template #@TableFormButton>
                 <el-button @click="handleReset">重置</el-button>
                 <el-button type="primary" :loading="loading" @click="handleSearch">搜索</el-button>
@@ -323,6 +323,7 @@ export default defineComponent({
         return {
             loading,
             tableElRef,
+            getProps,
             getBindProps,
             getRowStyle,
             getTableClass,

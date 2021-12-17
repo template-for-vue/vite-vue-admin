@@ -104,14 +104,18 @@ export const useColumns = (
         }
     }
 
-    const getColumnsRef = computed(() => {
-        if (!unref(columnsRef)) return [];
-        const columns: TableCol[] = deepClone(unref(columnsRef));
-        columns.forEach((item, index) => {
-            handleColumnItem(item, 0, index);
-        })
-        return columns;
-    })
+    const viewColumnsRef = ref<TableCol[]>([]);
+    watch(
+        () => columnsRef.value,
+        () => {
+            if (!unref(columnsRef)) viewColumnsRef.value = [];
+            const columns: TableCol[] = deepClone(unref(columnsRef));
+            columns.forEach((item, index) => {
+                handleColumnItem(item, 0, index);
+            })
+            viewColumnsRef.value = columns;
+        }
+    )
 
     const hasPermission = (column: TableCol) => {
         const {vColumnAuth} = unref(getProps);
@@ -124,7 +128,7 @@ export const useColumns = (
     };
 
     const getViewColumns = computed(() => {
-        const viewColumns = unref(getColumnsRef);
+        const viewColumns = unref(viewColumnsRef);
         const columns: TableCol[] = deepClone(viewColumns);
 
         const bodyWidth = getTableRef()?.$el.offsetWidth;
@@ -220,7 +224,6 @@ export const useColumns = (
     );
 
     return {
-        getColumnsRef,
         getViewColumns,
         getColumns,
         setColumns,

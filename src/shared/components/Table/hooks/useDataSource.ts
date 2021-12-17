@@ -266,6 +266,9 @@ export const useDataSource = (
         () => unref(getProps).dataSource,
         async () => {
             let {dataSource} = unref(getProps);
+            if (isArray(dataSource)) {
+                dataSource = {list: dataSource, total: 0}
+            }
             const {list = [], total = 0} = dataSource || {};
             list && list.length > 0 && (dataSourceRef.value = list);
             setPagination({total});
