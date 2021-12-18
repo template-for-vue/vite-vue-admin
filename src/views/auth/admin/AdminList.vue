@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref} from 'vue';
+import {defineComponent} from 'vue';
 import {useTable} from "/@/shared/components/Table/hooks/useTable";
 import {FormProps} from "/@/shared/components/Form/types/form";
 import {getDictionaryValueMapStore, getDictionaryValueStore} from "/@/service/DictionaryService";
@@ -152,20 +152,20 @@ export default defineComponent({
         tableProps.vButtonAuth = []
         const [register, {handleReset}] = useTable(tableProps, selectAdminPageApi);
 
-        const {openDialog} = useDialog({component: UpdateAdminPop});
+        const {createDialog} = useDialog();
+        const Dialog = createDialog(UpdateAdminPop);
         const handleUpdatePop = async ({id}: any) => {
             const isEdit = isNotEmpty(id);
             const updateData = isEdit ? await selectAdminInfoApi({id}) : {};
             const title = isEdit ? '编辑管理员' : '新增管理员';
-            await openDialog({
-                id,
-                title,
-                updateData,
-                async onOk() {
+            await Dialog
+                .setAttrs({title})
+                .setProps({id, updateData})
+                .setOk(async () => {
                     await handleReset();
                     return true;
-                }
-            })
+                })
+                .open();
         }
 
         return {

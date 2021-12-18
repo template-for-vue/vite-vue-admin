@@ -70,7 +70,9 @@
                 </template>
                 <!-- link -->
                 <a v-else-if="column.type === 'link'" class="el-table-column__link"
-                   @click.stop.prevent="column.click(scope.row,scope.$index)">{{ scope.row[column.isFormat ? `${column.prop}_format` : column.prop] }}</a>
+                   @click.stop.prevent="column.click(scope.row,scope.$index)">{{
+                        scope.row[column.isFormat ? `${ column.prop }_format` : column.prop]
+                    }}</a>
                 <!-- tag -->
                 <el-tag v-else-if="column.type === 'tag'" :type="scope.row[`${column.prop}_status`]"
                         :size="getTagSizeRef">
@@ -83,7 +85,9 @@
                 <!-- 普通内容 -->
                 <template v-else>
                     <span class="el-table-column__unset" v-if="!scope.row[column.prop] && scope.row[column.prop] !== 0">未设置</span>
-                    <template v-else-if="column.showOverflowTooltip">{{ scope.row[column.isFormat ? `${column.prop}_format` : column.prop] }}</template>
+                    <template v-else-if="column.showOverflowTooltip">
+                        {{ scope.row[column.isFormat ? `${ column.prop }_format` : column.prop] }}
+                    </template>
                     <div v-else v-html="scope.row[column.isFormat ? `${column.prop}_format` : column.prop]"></div>
                 </template>
             </slot>
@@ -154,7 +158,10 @@ export default defineComponent({
             if (pop && isFunction(pop.vif) && pop.vif(row, rowIndex)) {
                 const message = (isFunction(pop.message)) ? pop.message(row, rowIndex) : pop.message;
                 if (await createConfirm({message, autoClose: false})) {
-                    await click(row, rowIndex);
+                    try {
+                        await click(row, rowIndex);
+                    } catch (e) {
+                    }
                 }
                 closeConfirm();
             } else {

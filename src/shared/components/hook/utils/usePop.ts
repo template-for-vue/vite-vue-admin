@@ -74,7 +74,7 @@ export const usePop = (options: UsePopContext) => {
 
         const __options = Object.assign({}, {
             okText: projectSetting.messageSetting.okText,
-            cancelText: projectSetting.messageSetting.cancelText,
+            cancelText: projectSetting.messageSetting.cancelText
         }, options)
 
         return new Promise((resolve, reject) => {

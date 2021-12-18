@@ -81,7 +81,9 @@ const transform: AxiosTransform = {
         //请求成功
         if (code === ResponseEnum.SUCCESS) {
             if (response.config.method === 'post') {
-                createSuccessMessage();
+                setTimeout(() => {
+                    createSuccessMessage();
+                }, 150)
             }
             return result;
         }
@@ -100,7 +102,9 @@ const transform: AxiosTransform = {
                 if (errorMessageMode === 'modal') {
                     await createAlert({message});
                 } else {
-                    createErrorMessage(message);
+                    setTimeout(() => {
+                        createErrorMessage(message);
+                    }, 150)
                 }
         }
         return Promise.reject(false);

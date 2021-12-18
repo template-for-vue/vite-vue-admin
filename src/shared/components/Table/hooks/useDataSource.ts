@@ -181,24 +181,29 @@ export const useDataSource = (
      */
     const getRemoteDataSource = async (pagination: TablePagination = {}, customQuery: Recordable = {}, isRefresh = false) => {
 
-        const {formMethods, getRemoteDataSource} = unref(getProps);
+        const {form, formMethods, getRemoteDataSource} = unref(getProps);
         const {page_index: defaultIndex, page_size: defaultSize} = unref(getPaginationRef);
         const {page_index = defaultIndex, page_size = defaultSize} = pagination;
 
         if (getRemoteDataSource && isFunction(getRemoteDataSource)) {
             const {getFieldsValue, resetFields} = formMethods || {};
             if (isRefresh) {
-                resetFields();
+                form && resetFields();
                 clearSort();
             }
             customQuery = isObject(customQuery) ? customQuery : {};
             const sort = getCurrentSort();
-            const query = Object.assign({}, await getFieldsValue?.() || {}, customQuery, sort, {page_index, page_size});
+            const query = Object.assign({}, form ? await getFieldsValue?.() || {} : {}, customQuery, sort, {
+                page_index,
+                page_size
+            });
 
             try {
                 loading.value = true;
                 setPagination({page_index, page_size});
-                const {list, total} = await getRemoteDataSource(query);
+                let result = await getRemoteDataSource(query);
+                if (isArray(result)) result = {list: result, total: 0};
+                const {list, total} = result;
                 if (list === undefined || total === undefined) {
                     return error('The remote method must return property list and total')
                 }

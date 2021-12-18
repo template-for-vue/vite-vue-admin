@@ -258,18 +258,20 @@ export default defineComponent({
         // +----------------------------------------------------------------------
 
         const getFormPropsRef = computed(() => {
-            const {form = {}} = unref(getProps);
-            form.rowProps = form.rowProps ?? {gutter: 16};
-            form.colProps = form.colProps ?? {span: 6};
-            form.className = 'el-form el-table-form__search';
-            (form.schemas as FormSchema[])?.push({
-                renderItem: '@TableFormButton'
-            })
+            const {form} = unref(getProps);
+            if(form){
+                form.rowProps = form.rowProps ?? {gutter: 16};
+                form.colProps = form.colProps ?? {span: 6};
+                form.className = 'el-form el-table-form__search';
+                (form.schemas as FormSchema[])?.push({
+                    renderItem: '@TableFormButton'
+                })
+            }
             return form;
         })
 
-        const [formRegister, formMethods] = useForm(unref(getFormPropsRef));
-        setProps({formMethods})
+        const [formRegister, formMethods] = unref(getFormPropsRef) ? useForm(unref(getFormPropsRef)) : [];
+        formMethods && setProps({formMethods})
 
         // +----------------------------------------------------------------------
         // | 表格头部

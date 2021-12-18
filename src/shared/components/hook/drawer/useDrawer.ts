@@ -1,9 +1,9 @@
 import {defineComponent, Suspense, h, ref} from "vue";
 import {usePop} from "/@/shared/components/hook/utils/usePop";
 import script from '/@/shared/components/hook/drawer/index.vue';
+import {isNullOrUnDef, isNumber} from "/@/shared/utils/is";
 
-interface UseDrawerContext {
-    component: ReturnType<typeof defineComponent>;
+interface useDrawerAttrs {
     size?: string | number;
     title?: string;
     direction?:
@@ -11,53 +11,83 @@ interface UseDrawerContext {
         | 'ltr'
         | 'ttb'
         | 'btt';
-    onOk?: Fn,
-    onCancel?: Fn,
-
-    [key: string]: any;
 }
+const noop: any = () => true;
+export const useDrawer = () => {
 
-export const useDrawer = (options: UseDrawerContext) => {
+    const createDrawer = (component: ReturnType<typeof defineComponent>) => {
+        class Drawer {
+            private component = component;
+            private props: Recordable = {};
+            private attrs: useDrawerAttrs = {};
+            private onOk = noop;
+            private onCancel = noop;
 
-    const getComponentActions = ref({});
-    const component = h(
-        script,
-        {width: options.width},
-        {
-            default: (attrs: any) => {
-                return h(
-                    Suspense,
-                    null,
+            setAttrs = (attrs: useDrawerAttrs = {}) => {
+                this.attrs = attrs;
+                return this;
+            };
+
+            setProps = (props: Recordable = {}) => {
+                this.props = props;
+                return this;
+            };
+
+            setOk = (onOk = noop) => {
+                this.onOk = onOk;
+                return this;
+            };
+
+            setCancel = (onCancel = noop) => {
+                this.onCancel = onCancel;
+                return this;
+            };
+
+            open = async () => {
+
+                let {size} = this.attrs;
+                if (!isNullOrUnDef(size)) {
+                    this.attrs.size = isNumber(size) || (parseInt(size).toString() === size) ? `${size}px` : size;
+                }
+
+                const getComponentActions = ref({});
+                const component = h(
+                    script,
+                    {},
                     {
                         default: () => {
-                            options.component.inheritAttrs = false;
-                            const render = options.component.render;
-                            options.component.render = function(vm:any){
-                                setTimeout(() => {
-                                    getComponentActions.value = {
-                                        onOk: vm?.ok,
-                                        onCancel: vm?.cancel
-                                    };
-                                }, 0)
-                                return render(...arguments);
-                            }
-                            return h(options.component, attrs);
+                            return h(
+                                Suspense,
+                                null,
+                                {
+                                    default: () => {
+                                        this.component.inheritAttrs = false;
+                                        const render = this.component.render;
+                                        this.component.render = function (vm: any) {
+                                            setTimeout(() => {
+                                                getComponentActions.value = {
+                                                    onOk: vm?.ok,
+                                                    onCancel: vm?.cancel
+                                                };
+                                            }, 0)
+                                            return render(...arguments);
+                                        }
+                                        return h(this.component, this.props);
+                                    }
+                                }
+                            )
                         }
                     }
-                )
+                );
+                const {createPop, closePop} = usePop({component});
+                const __options = Object.assign({}, this.attrs, {onOk: this.onOk, onCancel: this.onCancel});
+                await createPop(__options, getComponentActions)
+                return closePop;
             }
+
         }
-    );
-
-    const {createPop, closePop} = usePop({component});
-    const openDrawer = async (params: Recordable = {}) => {
-        const __options = Object.assign({}, options, params);
-        delete __options.component;
-        await createPop(__options, getComponentActions)
+        return new Drawer();
     }
 
-    return {
-        openDrawer,
-        closeDrawer: closePop
-    }
+    return {createDrawer}
 }

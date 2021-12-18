@@ -292,6 +292,7 @@ export default defineComponent({
         const {size, placeholder, help, component, label} = props.schema;
 
         const itemProps = computed(() => {
+            console.log(props.schema.prop,unref(getRequired) , unref(getIf) , unref(getShow))
             return {
                 ...props.schema,
                 help: help && !isArray(help) ? [help] : help,
