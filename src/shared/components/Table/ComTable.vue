@@ -332,7 +332,8 @@ export default defineComponent({
                     const defaultSelection = unref(getProps).defaultSelection!;
                     for (let i = 0, len = defaultSelection.length; i < len; i++) {
                         const key:string = defaultSelection[i];
-                        toggleRowSelection(unref(getDataSourceMapByKey)[key], true)
+                        const row = unref(getDataSourceMapByKey)[key];
+                        row && toggleRowSelection(row, true)
                     }
                 }
             }
