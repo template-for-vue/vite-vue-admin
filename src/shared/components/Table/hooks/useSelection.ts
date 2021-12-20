@@ -5,6 +5,7 @@ import {isFunction} from "/@/shared/components/Table/utils";
 
 interface UseTableSelectionContext {
     getProps: ComputedRef<TableProps>;
+    getDataSource: TableRow[];
     treeExpandProps: ComputedRef<TreeExpandProps>;
     toggleRowSelection: (row: TableRow, selected: boolean) => void;
 }
@@ -12,6 +13,7 @@ interface UseTableSelectionContext {
 export const useSelection = (
     {
         getProps,
+        getDataSource,
         treeExpandProps,
         toggleRowSelection
     }: UseTableSelectionContext) => {
@@ -21,16 +23,14 @@ export const useSelection = (
      */
     const getDataSourceMapByPkey = computed(() => {
         const {pid} = unref(treeExpandProps);
-        const {data = []} = unref(getProps);
-        return listToMap(data, pid)
+        return listToMap(getDataSource, pid)
     })
     /**
      * 将数据构建成Record<key,row|row[]>
      */
     const getDataSourceMapByKey = computed(() => {
         const {id} = unref(treeExpandProps);
-        const {data = []} = unref(getProps);
-        return listToMap(data, id)
+        return listToMap(getDataSource, id)
     })
 
     /**
@@ -79,6 +79,7 @@ export const useSelection = (
         const {id: key, pid: pkey, isNest = false} = unref(treeExpandProps);
 
         if (isTree && isNest) {
+
             const currId = row[key!];
             const currPid = row[pkey!];
             if ((!currId && currId !== 0) || (!currPid && currPid !== 0)) {
@@ -88,6 +89,7 @@ export const useSelection = (
             const isSelected = selectedIds.has(currId);
             const parents = getParentsByPkey(currPid);
             const children = getChildrenByKey(currId);
+
             let needToChecked = [row].concat(children);
             if (isSelected) {
                 needToChecked = needToChecked.concat(parents);

@@ -15,20 +15,20 @@ export const useTree = (
         return Array.from(new Set(arrayFlat2(expandGroups.value)));
     })
     const treeExpandProps: ComputedRef<TreeExpandProps> = computed(() => {
-        return Object.assign({}, unref(getProps).treeExpandProps, {
+        return Object.assign({}, {
             id: unref(getRowKey) || 'id',
             pid: 'pid',
             isNest: true
-        });
+        }, unref(getProps).treeExpandProps);
     });
 
     const treeRowStyle = (({row}: TableRow) => {
-        const pid = row[unref(treeExpandProps).pid];
+        const pid = row[unref(treeExpandProps).pid!];
         return pid === 0 || treeExpands.value.includes(pid) ? '' : 'display:none';
     })
     const handleExpandChange = (row: TableRow, isExpand: boolean) => {
-        const id = row[unref(treeExpandProps).id];
-        const pid = row[unref(treeExpandProps).pid];
+        const id = row[unref(treeExpandProps).id!];
+        const pid = row[unref(treeExpandProps).pid!];
         if (isExpand) {
             if (!treeExpands.value.includes(id)) {
                 expandGroups.value.push([pid, id]);
@@ -40,8 +40,8 @@ export const useTree = (
 
     const {onExpandChange = (() => true)} = unref(getProps);
     const treeExpandClick = async (row: TableRow) => {
-        const id = row[unref(treeExpandProps).id];
-        const pid = row[unref(treeExpandProps).pid];
+        const id = row[unref(treeExpandProps).id!];
+        const pid = row[unref(treeExpandProps).pid!];
         if ((!id && id !== 0) || (!pid && pid !== 0)) {
             return warn('请设置treeExpandProps 或者 treeExpandProps 设置的 id 及 pid 不正确');
         }
@@ -66,7 +66,7 @@ export const useTree = (
             if (defaultExpandAll) {
                 expandGroups.value = (unref(getProps).data || [])
                     .filter(({is_leaf}) => !is_leaf)
-                    .map((row) => [row[unref(treeExpandProps).pid], row[unref(treeExpandProps).id]] as number[]);
+                    .map((row) => [row[unref(treeExpandProps).pid!], row[unref(treeExpandProps).id!]] as number[]);
             }
         }
     )
@@ -74,7 +74,7 @@ export const useTree = (
     const handleTreeExpandAll = () => {
         expandGroups.value = (unref(getProps).data || [])
             .filter(({is_leaf}) => !is_leaf)
-            .map((row) => [row[unref(treeExpandProps).pid], row[unref(treeExpandProps).id]] as number[]);
+            .map((row) => [row[unref(treeExpandProps).pid!], row[unref(treeExpandProps).id!]] as number[]);
     }
     const handleTreeCollapseAll = () => {
         expandGroups.value = [];

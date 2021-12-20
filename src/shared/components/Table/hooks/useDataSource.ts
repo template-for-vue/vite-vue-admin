@@ -167,7 +167,7 @@ export const useDataSource = (
     })
 
     const setDataSource = (data: TableRow[]) => {
-        setProps({data});
+        setProps({dataSource:data});
     }
     const getDataSource = () => {
         return toRaw(unref(getDataSourceRef)) as TableRow[];
@@ -266,7 +266,7 @@ export const useDataSource = (
 
     nextTick().then(async () => {
         let {dataSource} = unref(getProps);
-        isNullOrUnDef(dataSource) && await getRemoteDataSource();
+        isNullOrUnDef(dataSource) && await getRemoteDataSource()
     })
 
     watch(
@@ -277,7 +277,9 @@ export const useDataSource = (
                 dataSource = {list: dataSource, total: 0}
             }
             const {list = [], total = 0} = dataSource || {};
-            list && list.length > 0 && (dataSourceRef.value = list);
+             if(list && list.length > 0){
+                 dataSourceRef.value = list;
+             }
             setPagination({total});
         }
     )

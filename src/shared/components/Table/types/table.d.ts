@@ -329,7 +329,7 @@ export interface TableProps {
      */
     data?: TableRow[];
 
-    dataSource?: RemoteDataSource;
+    dataSource?: RemoteDataSource | TableRow[];
 
     /**
      * 分页配置

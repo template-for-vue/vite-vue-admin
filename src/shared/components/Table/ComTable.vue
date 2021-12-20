@@ -182,6 +182,7 @@ export default defineComponent({
         const getBindProps: ComputedRef<TableProps> = computed(() => {
             const data = unref(getDataSourceRef);
             let bindProps: Recordable = {
+                border: true,
                 ...unref(getProps),
                 size: unref(tableSizeRef),
                 rowKey: unref(getRowKey),
@@ -259,7 +260,7 @@ export default defineComponent({
 
         const getFormPropsRef = computed(() => {
             const {form} = unref(getProps);
-            if(form){
+            if (form) {
                 form.rowProps = form.rowProps ?? {gutter: 16};
                 form.colProps = form.colProps ?? {span: 6};
                 form.className = 'el-form el-table-form__search';
@@ -318,6 +319,7 @@ export default defineComponent({
             onSelectAll
         } = useSelection({
             getProps,
+            getDataSource: unref(getDataSourceRef),
             treeExpandProps,
             toggleRowSelection
         });
