@@ -7,7 +7,8 @@ import {isFunction, sleep} from "/@/shared/components/Table/utils";
 
 export const useTree = (
     getProps: ComputedRef<TableProps>,
-    getRowKey: ComputedRef<string>
+    getRowKey: ComputedRef<string>,
+    getDataSourceRef:ComputedRef<TableRow[]>
 ) => {
 
     const expandGroups: Ref<number[][]> = ref(unref(getProps).expandRowKeys || []);
@@ -60,11 +61,11 @@ export const useTree = (
     }
 
     watch(
-        () => unref(getProps).data,
+        () => getDataSourceRef.value,
         async () => {
             let {defaultExpandAll} = unref(getProps);
             if (defaultExpandAll) {
-                expandGroups.value = (unref(getProps).data || [])
+                expandGroups.value = (unref(getDataSourceRef) || [])
                     .filter(({is_leaf}) => !is_leaf)
                     .map((row) => [row[unref(treeExpandProps).pid!], row[unref(treeExpandProps).id!]] as number[]);
             }
@@ -72,7 +73,7 @@ export const useTree = (
     )
 
     const handleTreeExpandAll = () => {
-        expandGroups.value = (unref(getProps).data || [])
+        expandGroups.value = (unref(getDataSourceRef) || [])
             .filter(({is_leaf}) => !is_leaf)
             .map((row) => [row[unref(treeExpandProps).pid!], row[unref(treeExpandProps).id!]] as number[]);
     }

@@ -77,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import type {ComputedRef} from 'vue';
+import {ComputedRef, onMounted} from 'vue';
 import {computed, defineComponent, provide, ref, unref} from 'vue';
 import {useDataSource} from './hooks/useDataSource';
 import type {TableActionType, TableProps, TableRow} from "/@/shared/components/Table/types/table";
@@ -217,14 +217,14 @@ export default defineComponent({
             treeExpandClick,
             handleTreeExpandAll,
             handleTreeCollapseAll
-        } = useTree(getProps, getRowKey);
+        } = useTree(getProps, getRowKey, getDataSourceRef);
 
         const {
             expands,
             expandClick,
             handleExpandAll,
             handleCollapseAll
-        } = useExpand(getProps, getRowKey);
+        } = useExpand(getProps, getRowKey, getDataSourceRef);
 
         provide('USE_TREE', {treeExpandProps, treeExpands, treeExpandClick});
         provide('USE_EXPAND', {getRowKey, expands, expandClick});
@@ -316,12 +316,26 @@ export default defineComponent({
 
         const {
             onSelectionChange,
-            onSelectAll
+            onSelectAll,
+            getDataSourceMapByKey
         } = useSelection({
             getProps,
             getDataSource: unref(getDataSourceRef),
             treeExpandProps,
             toggleRowSelection
+        });
+
+        onMounted(() => {
+            //设置默认选中项
+            if (unref(getViewColumns).some(({type}) => type === 'selection')) {
+                if (unref(getProps).defaultSelection?.length) {
+                    const defaultSelection = unref(getProps).defaultSelection!;
+                    for (let i = 0, len = defaultSelection.length; i < len; i++) {
+                        const key:string = defaultSelection[i];
+                        toggleRowSelection(unref(getDataSourceMapByKey)[key], true)
+                    }
+                }
+            }
         });
 
         return {

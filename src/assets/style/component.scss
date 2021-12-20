@@ -58,7 +58,16 @@
 }
 
 .com-drawer {
+    display:block !important;
+    padding-top: 60px;
+    padding-bottom: 60px;
+
     .el-drawer__header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 11;
         padding-top: 16px;
         padding-bottom: 16px;
         margin-bottom: 0;
@@ -67,8 +76,8 @@
     }
 
     .el-drawer__body {
-        height: 100%;
         padding: 0;
+        height: 100%;
     }
 }
 
@@ -80,9 +89,14 @@
 }
 
 .com-drawer.title-hidden {
+    padding-top: 0;
     .com-drawer-content {
         padding-top: 30px;
     }
+}
+
+.com-drawer.footer-hidden {
+    padding-bottom: 0;
 }
 
 .com-drawer-footer {
@@ -90,9 +104,11 @@
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 11;
     padding: 10px 20px 20px 0;
     text-align: right;
     background: #fff;
+    box-shadow: 0 -1px 1px rgb(0 0 0 / 6%)
 }
 
 // pop

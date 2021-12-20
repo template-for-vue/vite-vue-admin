@@ -5,7 +5,8 @@ import {isFunction, sleep} from "/@/shared/components/Table/utils";
 
 export const useExpand = (
     getProps: ComputedRef<TableProps>,
-    getRowKey:ComputedRef<string>
+    getRowKey:ComputedRef<string>,
+    getDataSourceRef:ComputedRef<TableRow[]>
 ) => {
 
     const expands = ref<any[]>(unref(getProps).expandRowKeys || [])
@@ -40,17 +41,17 @@ export const useExpand = (
     }
 
     watch(
-        () => unref(getProps).data,
+        () => getDataSourceRef.value,
         async () => {
             let {defaultExpandAll} = unref(getProps);
             if (defaultExpandAll) {
-                expands.value = (unref(getProps).data || []).map((row) => row[key]);
+                expands.value = (unref(getDataSourceRef) || []).map((row) => row[key]);
             }
         }
     )
 
     const handleExpandAll = () => {
-        expands.value = (unref(getProps).data || []).map((row) => row[key]);
+        expands.value = (unref(getDataSourceRef) || []).map((row) => row[key]);
     }
 
     const handleCollapseAll = () => {

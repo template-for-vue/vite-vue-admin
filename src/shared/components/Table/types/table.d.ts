@@ -463,6 +463,11 @@ export interface TableProps {
     onSelectAll?: Fn;
 
     /**
+     * 默认选中项
+     */
+    defaultSelection?: string[];
+
+    /**
      * 展开时触发的方法
      */
     onExpandChange?: Fn;

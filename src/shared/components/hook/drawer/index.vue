@@ -1,6 +1,6 @@
 <template>
     <el-drawer
-        :custom-class="`com-drawer ${title ? '' : 'title-hidden'}`"
+        :custom-class="`com-drawer ${title ? '' : 'title-hidden'} ${showOk || showCancel ? '' : 'footer-hidden'}`"
         v-model="visible"
         :size="size"
         :show-close="showClose"
