@@ -40,18 +40,15 @@
     }
 
     .el-input-group__append {
-        border-width: 0 0 0 1px;
-        border-left: 1px solid #dcdfe6;
+        border-left: none;
     }
 
     .el-input-group__prepend {
-        border-width: 0 1px 0 0;
-        border-right: 1px solid #dcdfe6;
+        border-right: none;
     }
 
     .el-input__count-inner {
         background-color: unset !important;
-
     }
 
     .el-input__inner:hover {
@@ -89,6 +86,10 @@
 
     .el-form-item__content {
         display: flex;
+    }
+
+    .el-select__tags .el-tag{
+        background-color: var(--color-white);
     }
 
     //el-checkbox
@@ -300,4 +301,5 @@
             display: none;
         }
     }
+
 }

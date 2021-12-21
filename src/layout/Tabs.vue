@@ -324,6 +324,7 @@ export default defineComponent({
     border-right: 1px solid var(--color-border-sep);
     color: #666;
     cursor: pointer;
+    overflow: hidden;
 }
 
 .com-layout-tabs__item::after,

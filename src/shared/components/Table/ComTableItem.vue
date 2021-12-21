@@ -71,7 +71,7 @@
                 <!-- link -->
                 <a v-else-if="column.type === 'link'" class="el-table-column__link"
                    @click.stop.prevent="column.click(scope.row,scope.$index)">{{
-                        scope.row[column.isFormat ? `${ column.prop }_format` : column.prop]
+                        scope.row[getColumnKey(column)]
                     }}</a>
                 <!-- tag -->
                 <el-tag v-else-if="column.type === 'tag'" :type="scope.row[`${column.prop}_status`]"
@@ -84,11 +84,11 @@
                 </com-badge>
                 <!-- 普通内容 -->
                 <template v-else>
-                    <span class="el-table-column__unset" v-if="!scope.row[column.prop] && scope.row[column.prop] !== 0">未设置</span>
+                    <span class="el-table-column__unset" v-if="!scope.row[getColumnKey(column)] && scope.row[getColumnKey(column)] !== 0">未设置</span>
                     <template v-else-if="column.showOverflowTooltip">
-                        {{ scope.row[column.isFormat ? `${ column.prop }_format` : column.prop] }}
+                        {{ scope.row[getColumnKey(column)] }}
                     </template>
-                    <div v-else v-html="scope.row[column.isFormat ? `${column.prop}_format` : column.prop]"></div>
+                    <div v-else v-html="scope.row[getColumnKey(column)]"></div>
                 </template>
             </slot>
         </template>
@@ -184,6 +184,10 @@ export default defineComponent({
             return sizeMap[size];
         })
 
+        const getColumnKey = (col:TableCol) => {
+            return col.isFormat ? `${ col.prop }_format` : col.prop
+        }
+
         return {
             handleInput,
             handleBlur,
@@ -194,7 +198,8 @@ export default defineComponent({
             expands,
             getRowKey,
             getTagSizeRef,
-            handleButtonClick
+            handleButtonClick,
+            getColumnKey
         }
     }
 })
