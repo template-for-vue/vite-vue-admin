@@ -12,7 +12,7 @@
             <td class="com-description-item__content" v-if="types.includes('td')" :colspan="getContentColSpan(item)">
                 <div class="com-description-item__cell">
                     <slot :name="item.renderContent" v-bind="item">
-                        {{ item.$value }}
+                        <span v-html="item.$value"></span>
                     </slot>
                 </div>
             </td>
@@ -32,7 +32,7 @@
                     </template>
                     <div class="com-description-item__content" v-if="types.includes('td')">
                         <slot :name="item.renderContent" v-bind="item">
-                            {{ item.$value }}
+                            <span v-html="item.$value"></span>
                         </slot>
                     </div>
                 </div>
