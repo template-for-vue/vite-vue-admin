@@ -297,7 +297,7 @@ export default defineComponent({
                 help: help && !isArray(help) ? [help] : help,
                 size: size || formSize,
                 rules: unref(getRules),
-                required: !isNullOrUnDef(unref(getRequired)) && unref(getIf) && unref(getShow)
+                required: unref(getRequired) && unref(getIf) && unref(getShow)
             } as FormSchema
         })
 

@@ -168,7 +168,7 @@ export const useDataSource = (
     })
 
     const setDataSource = (data: TableRow[]) => {
-        setProps({dataSource:data});
+        setProps({dataSource: data});
     }
     const getDataSource = () => {
         return toRaw(unref(getDataSourceRef)) as TableRow[];
@@ -208,7 +208,6 @@ export const useDataSource = (
                 if (list === undefined || total === undefined) {
                     return error('The remote method must return property list and total')
                 }
-                setProps({data: list});
                 setPagination({total});
                 dataSourceRef.value = list;
             } finally {
@@ -278,9 +277,9 @@ export const useDataSource = (
                 dataSource = {list: dataSource, total: 0}
             }
             const {list = [], total = 0} = dataSource || {};
-             if(list && list.length > 0){
-                 dataSourceRef.value = list;
-             }
+            if (list && list.length > 0) {
+                dataSourceRef.value = list;
+            }
             setPagination({total});
         }
     )

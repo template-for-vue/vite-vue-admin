@@ -14,7 +14,7 @@
             v-model:size="tableSizeRef"
             :setColumns="setColumns"
             @refresh="handleSearch">
-            <template #[getTableHeaderRef.buttonRender]>
+            <template #[getTableHeaderRef.buttonRender] v-if="$slots[getTableHeaderRef.buttonRender]">
                 <slot :name="getTableHeaderRef.buttonRender"></slot>
             </template>
         </com-table-header>
@@ -68,6 +68,8 @@
                 background
                 class="com-table-pagination"
                 layout="->,prev,pager,next"
+                v-model:currentPage="getPaginationRef.page_index"
+                :page-size="getPaginationRef.page_size"
                 :total="getPaginationRef.total"
                 @size-change="handlePageSizeChange"
                 @current-change="handlePageIndexChange"
@@ -331,7 +333,7 @@ export default defineComponent({
                 if (unref(getProps).defaultSelection?.length) {
                     const defaultSelection = unref(getProps).defaultSelection!;
                     for (let i = 0, len = defaultSelection.length; i < len; i++) {
-                        const key:string = defaultSelection[i];
+                        const key: string = defaultSelection[i];
                         const row = unref(getDataSourceMapByKey)[key];
                         row && toggleRowSelection(row, true)
                     }

@@ -49,7 +49,6 @@ export const useFormValues = ({getSchema, getProps, formModel}: UseFormValuesCon
                 case 'InputNumber':
                     defaultValue = defaultValue || 0;
                     break;
-                case 'InputTag':
                 case 'TimePicker':
                     defaultValue && (defaultValue = valueToArray(defaultValue));
                     break;

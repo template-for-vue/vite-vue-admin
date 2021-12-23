@@ -126,7 +126,6 @@ export type ComponentType =
     | 'Input'
     | 'InputPassword'
     | 'InputNumber'
-    | 'InputTag'
     | 'Textarea'
     | 'Select'
     | 'Checkbox'
