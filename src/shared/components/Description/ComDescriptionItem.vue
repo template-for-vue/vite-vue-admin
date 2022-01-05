@@ -58,7 +58,7 @@ export default defineComponent({
             default: () => ({})
         },
         items: {
-            type: Array as PropType<DescriptionItem>,
+            type: Array as PropType<DescriptionItem[]>,
             default: () => []
         }
     },
@@ -66,7 +66,7 @@ export default defineComponent({
         const getLabelWidthRef = computed(() => {
             const {labelWidth} = props.getProps;
             if (!labelWidth) return undefined;
-            return typeof labelWidth === 'number' || parseFloat(labelWidth) == labelWidth ? `${labelWidth}px` : labelWidth;
+            return typeof labelWidth === 'number' || `${parseFloat(labelWidth)}` == labelWidth ? `${labelWidth}px` : labelWidth;
         })
 
         const getLabelColonRef = computed(() => {
@@ -74,12 +74,12 @@ export default defineComponent({
             return colon;
         })
 
-        const getLabelColSpan = ({span}) => {
+        const getLabelColSpan = ({span}:any) => {
             const {isVertical, border} = props.getProps;
             return isVertical || !border ? span : 1
         }
 
-        const getContentColSpan = ({span}) => {
+        const getContentColSpan = ({span}:any) => {
             const {isVertical} = props.getProps;
             return isVertical ? span : span * 2 - 1;
         }
@@ -140,7 +140,7 @@ export default defineComponent({
 .com-description-border {
     .com-description-item__label {
         border-right: 1px solid var(--color-border-sep);
-        background-color: #fafafa;
+        background-color: var(--el-background-color-base);
     }
 
     .com-description-item__content {

@@ -5,6 +5,16 @@
     background: #fff;
 }
 
+.com-table {
+    .el-checkbox {
+        height: unset !important;
+    }
+
+    .el-radio {
+        height: unset !important;
+    }
+}
+
 .com-table-header__popover {
     min-width: unset !important;
 }
@@ -51,14 +61,15 @@
     .el-form-item {
         margin-bottom: 0;
     }
-    .el-form-item__label{
+
+    .el-form-item__label {
         padding-left: 10px;
         font-size: 16px;
     }
 }
 
 .com-drawer {
-    display:block !important;
+    display: block !important;
     padding-top: 60px;
     padding-bottom: 60px;
 
@@ -90,6 +101,7 @@
 
 .com-drawer.title-hidden {
     padding-top: 0;
+
     .com-drawer-content {
         padding-top: 30px;
     }

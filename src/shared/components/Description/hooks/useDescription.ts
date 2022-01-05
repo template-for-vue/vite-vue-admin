@@ -1,4 +1,4 @@
-import {getCurrentInstance, ref, unref} from 'vue';
+import {ref, unref} from 'vue';
 import {
     DescriptionInstance,
     DescriptionProps,
@@ -8,10 +8,6 @@ import {
 
 export const useDescription = (props?: Partial<DescriptionProps>): UseDescriptionReturnType => {
 
-    if (!getCurrentInstance()) {
-        throw new Error('useDescription() can only be used inside setup() or functional components');
-    }
-
     const instanceRef = ref<Nullable<DescriptionInstance>>(null);
 
     const register = (instance: DescriptionInstance) => {
@@ -19,6 +15,7 @@ export const useDescription = (props?: Partial<DescriptionProps>): UseDescriptio
         instanceRef.value = instance;
         props && instance.setProps(props);
     }
+
 
     const methods: DescriptionInstance = {
         setProps: (props: Partial<DescriptionProps>): void => {

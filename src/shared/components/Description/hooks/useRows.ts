@@ -1,5 +1,4 @@
-import type {ComputedRef} from 'vue';
-import {unref, computed} from 'vue';
+import {computed, ComputedRef, unref} from 'vue';
 import {DescriptionItem, DescriptionProps} from "/@/shared/components/Description/types/description";
 import {isProdMode} from "/@/shared/components/Description/utils/env";
 
@@ -10,9 +9,11 @@ export const useRows = (getPropsRef: ComputedRef<DescriptionProps>) => {
     const {
         column = DEFAULT_COLUMN,
         schema,
-        dataSource
-    } = unref(getPropsRef) || {};
+    } = unref(getPropsRef);
 
+    const getDataSourceRef = computed(() => {
+        return unref(getPropsRef).dataSource
+    })
 
     const getFilledItem = (item: DescriptionItem, rowRestCol: number) => {
         const {span} = item;
@@ -42,7 +43,7 @@ export const useRows = (getPropsRef: ComputedRef<DescriptionProps>) => {
         return schema?.filter((item) => {
             let {vshow = true} = item;
             if (typeof vshow === 'function') {
-                vshow = vshow(item, dataSource)
+                vshow = vshow(item, unref(getDataSourceRef))
             }
             return vshow;
         })
@@ -53,11 +54,14 @@ export const useRows = (getPropsRef: ComputedRef<DescriptionProps>) => {
 
         let tmpRow: DescriptionItem[] = [];
         let rowRestCol = column;
+
         unref(getVisitedRow)?.forEach((item: DescriptionItem, index: number) => {
+
             const span: number | undefined = item.span;
             const mergedSpan = span || 1;
             item.span = mergedSpan;
-            item.$value = getRowValue(item, dataSource);
+            item.$value = getRowValue(item, unref(getDataSourceRef));
+
             if (index === schema.length - 1) {
                 tmpRow.push(getFilledItem(item, rowRestCol));
                 rows.push(tmpRow);

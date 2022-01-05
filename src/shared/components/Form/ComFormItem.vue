@@ -135,34 +135,28 @@
 <script lang="ts">
 import type {PropType} from 'vue';
 import {computed, defineComponent, unref} from 'vue';
+import {FormActionType, FormProps, FormSchema, RenderCallbackParams} from "/@/shared/components/Form/types/form";
+import {isArray, isBoolean, isFunction} from "/@/shared/components/Form/utils";
 import {
-    FormActionType,
-    FormProps,
-    FormSchema,
-    RenderCallbackParams
-} from "/@/shared/components/Form/types/form";
-import {isArray, isBoolean, isFunction, isNullOrUnDef} from "/@/shared/components/Form/utils";
-import {
-    ElCol,
-    ElFormItem,
-    ElTooltip,
-    ElInput,
-    ElInputNumber,
-    ElSelect,
-    ElOptionGroup,
-    ElOption,
+    ElCascader,
     ElCheckbox,
     ElCheckboxButton,
     ElCheckboxGroup,
+    ElCol,
+    ElDatePicker,
+    ElDivider,
+    ElFormItem,
+    ElInput,
+    ElInputNumber,
+    ElOption,
+    ElOptionGroup,
     ElRadio,
     ElRadioButton,
     ElRadioGroup,
+    ElSelect,
     ElSwitch,
-    //@ts-ignore
-    ElCascader,
-    ElDatePicker,
     ElTimePicker,
-    ElDivider,
+    ElTooltip,
 } from 'element-plus';
 
 export default defineComponent({
@@ -288,15 +282,16 @@ export default defineComponent({
         // | 组织 form-item 属性 及 组件属性
         // +----------------------------------------------------------------------
 
-        const {size: formSize} = props.formProps;
-        const {size, placeholder, help, component, label} = props.schema;
+        const {size, labelWidth: formLabelWidth} = props.formProps;
+        const {placeholder, help, component, label, labelWidth} = props.schema;
 
         const itemProps = computed(() => {
             return {
                 ...props.schema,
                 help: help && !isArray(help) ? [help] : help,
-                size: size || formSize,
+                size,
                 rules: unref(getRules),
+                labelWidth:labelWidth || formLabelWidth,
                 required: unref(getRequired) && unref(getIf) && unref(getShow)
             } as FormSchema
         })

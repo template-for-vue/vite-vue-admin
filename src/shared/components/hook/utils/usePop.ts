@@ -51,8 +51,8 @@ export const usePop = (options: UsePopContext) => {
                 const {getComponentActions, resolve} = $$instances.get(vm.$$id);
                 const {onOk} = getComponentActions.value || {};
                 let isNext = true;
-                if (isFunction(onOk)) isNext = await onOk();
-                if (isNext && options.onOk && isFunction(options.onOk)) isNext = await options.onOk();
+                if (isFunction(onOk)) isNext = await onOk(isNext);
+                if (isNext && options.onOk && isFunction(options.onOk)) isNext = await options.onOk(isNext);
                 isNext && await resolve(result);
                 return isNext;
             }

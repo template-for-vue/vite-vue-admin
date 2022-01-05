@@ -30,7 +30,8 @@ export interface TableRow {
 
 export interface TableColInput {
     placeholder?: string;
-    disabled?: Fn | any;
+    disabled?: Fn | boolean;
+    readonly?: Fn | boolean;
     onInput?: (row: TableRow, val: any) => any;
     onBlur?: (row: TableRow, val: any) => any;
 }
@@ -72,6 +73,7 @@ export interface TableColButtonPop {
 }
 
 export interface TableColButton {
+
     /**
      * 按钮文字
      */
@@ -180,6 +182,7 @@ export interface TableCol {
     //类型
     type?:
         | 'index'
+        | 'radio'
         | 'selection'
         | 'button'
         | 'image'
@@ -259,6 +262,8 @@ export interface TableCol {
      * 标识索引列还是功能列
      */
     flag?: string;
+
+    click?: (row: TableRow, index: number) => void;
 
     /**
      * 未处理过滤
@@ -453,6 +458,16 @@ export interface TableProps {
     sortMap?: SortMap;
 
     /**
+     * radio 单选变更时触发
+     */
+    onRadioChange?: Fn;
+
+    /**
+     * 单选默认选中项
+     */
+    defaultRadio?: string | number;
+
+    /**
      * selection变更时触发
      */
     onSelectionChange?: Fn;
@@ -504,8 +519,14 @@ export interface TableProps {
 
     /**
      * 列权限控制，返回字段列表
+     * 优先于 vExColumnAuth
      */
     vColumnAuth?: (() => Recordable | string[]) | Recordable | string[];
+
+    /**
+     * 列权限控制，返回排除列
+     */
+    vExColumnAuth?: (() => Recordable | string[]) | Recordable | string[];
 
     /**
      * 按钮权限控制，返回操作授权列表

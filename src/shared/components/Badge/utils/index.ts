@@ -76,11 +76,18 @@ export function deepClone(target: any): any {
     if (isNullOrUnDef(target)) return target;
     if (isDate(target)) return new Date(target);
     if (isRegExp(target)) return new RegExp(target);
-    if (!isObject(target)) return target;
-    let clone: any = {};
-    for (const key in target) {
-        if (target.hasOwnProperty(key)) {
-            clone[key] = deepClone(target[key]);
+    let clone: any = target;
+    if (isArray(target)) {
+        clone = [];
+        for (let i = 0; i < target.length; i++) {
+            clone.push(deepClone(target[i]));
+        }
+    } else if (isObject(target)) {
+        clone = {};
+        for (let key in target) {
+            if (target.hasOwnProperty(key)) {
+                clone[key] = deepClone(target[key]);
+            }
         }
     }
     return clone;

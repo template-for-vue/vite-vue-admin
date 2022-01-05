@@ -1,27 +1,31 @@
 <template>
-    <el-dialog
-        :custom-class="`com-dialog ${title ? '' : 'title-hidden'}`"
-        v-model="visible"
-        :width="width"
-        :show-close="false"
-        :close-on-click-modal="false"
-        @close="onPopClosed">
-        <template #title v-if="title">{{ title }}</template>
-        <slot v-bind="{...$attrs}"></slot>
-        <template #footer v-if="showOk || showCancel">
-            <el-button v-if="showCancel" :type="cancelType" :size="buttonSize" @click="handleDialogCancel">
-                {{ cancelText }}
-            </el-button>
-            <el-button v-if="showOk" :type="okType" :size="buttonSize" :loading="loading" @click="handleDialogOk">
-                {{ okText }}
-            </el-button>
-        </template>
-    </el-dialog>
+    <div v-show="vshow">
+        <el-dialog
+            :custom-class="`com-dialog ${title ? '' : 'title-hidden'}`"
+            v-model="visible"
+            :width="width"
+            :show-close="false"
+            :close-on-click-modal="false"
+            @close="onPopClosed">
+            <template #title v-if="title">{{ title }}</template>
+            <suspense @resolve="handleResolve">
+                <slot v-bind="{...$attrs}"></slot>
+            </suspense>
+            <template #footer v-if="showOk || showCancel">
+                <el-button v-if="showCancel" :type="cancelType" :size="buttonSize" @click="handleDialogCancel">
+                    {{ cancelText }}
+                </el-button>
+                <el-button v-if="showOk" :type="okType" :size="buttonSize" :loading="loading" @click="handleDialogOk">
+                    {{ okText }}
+                </el-button>
+            </template>
+        </el-dialog>
+    </div>
 </template>
 
 <script lang="ts">
 import {defineComponent, ref} from 'vue';
-import {ElDialog, ElButton} from 'element-plus';
+import {ElButton, ElDialog} from 'element-plus';
 
 const noop = () => true;
 export default defineComponent({
@@ -77,6 +81,7 @@ export default defineComponent({
     },
     setup(props) {
 
+        const vshow = ref(false);
         const visible = ref(false);
         const loading = ref(false);
 
@@ -109,6 +114,10 @@ export default defineComponent({
             close,
             handleDialogOk,
             handleDialogCancel,
+            vshow,
+            handleResolve() {
+                vshow.value = true;
+            }
         }
     }
 })

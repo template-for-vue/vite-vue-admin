@@ -15,6 +15,7 @@ import {getTicketStore} from "/@/service/AuthRuleService";
 import {useAlert} from "/@/shared/components/hook/alert/useAlert";
 import {useMessage} from "/@/shared/components/hook/useMessage/useMessage";
 import {addHttpErrorInfo} from "vue-error-recorder";
+import {logout} from "/@/service/LoginService";
 
 const {createAlert} = useAlert();
 const {createErrorMessage, createSuccessMessage} = useMessage();
@@ -92,11 +93,17 @@ const transform: AxiosTransform = {
         switch (code) {
             case ResponseEnum.UN_PASS:
                 createErrorMessage('登陆已过期,请重新登陆!');
-                navigateTo(Page.LOGIN);
+                setTimeout(async () => {
+                    await logout();
+                    navigateTo(Page.LOGIN)
+                }, 1200);
                 break;
             case ResponseEnum.UN_AUTHORIZED:
                 createErrorMessage('没有访问权限!');
-                navigateTo(Page.LOGIN);
+                setTimeout(async () => {
+                    await logout();
+                    navigateTo(Page.LOGIN)
+                }, 1200);
                 break;
             case ResponseEnum.ERROR:
                 if (errorMessageMode === 'modal') {
@@ -107,7 +114,7 @@ const transform: AxiosTransform = {
                     }, 150)
                 }
         }
-        return Promise.reject(false);
+        return Promise.resolve(false);
     },
 
     /**

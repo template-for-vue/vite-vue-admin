@@ -47,3 +47,17 @@
     }
 }
 
+
+.color-primary {
+    color: var(--color-primary) !important;
+}
+
+.color-danger {
+    color: var(--color-danger) !important;
+}
+.font-bold{
+    font-weight: bold;
+}
+.pointer{
+    cursor: pointer;
+}

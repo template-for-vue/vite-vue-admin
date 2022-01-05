@@ -1,7 +1,7 @@
 import type {ComputedRef, Ref} from "vue";
 import {computed, nextTick, ref, toRaw, unref, watch} from "vue";
 import {TableCol, TablePagination, TableProps, TableRow} from "/@/shared/components/Table/types/table";
-import {deepClone, isArray, isFunction, isNullOrUnDef, isObject} from "/@/shared/components/Table/utils";
+import {isArray, isFunction, isNullOrUnDef, isObject} from "/@/shared/components/Table/utils";
 import {buildUUID} from "/@/shared/components/Table/utils/uuid";
 import {DATE_FORMAT, formatTime} from "/@/shared/components/Table/utils/date";
 import {error} from "/@/shared/components/Table/utils/log";
@@ -32,7 +32,8 @@ export const useDataSource = (
     }: UseDataSourceContext
 ) => {
 
-    const dataSourceRef = ref<Recordable[]>([])
+    const dataSourceRef = ref<Recordable[]>([]);
+    const dataSourceFormatRef = ref<Recordable[]>([]);
 
     const getRowKey = computed<string>(() => {
         const {rowKey = 'id'} = unref(getProps);
@@ -57,10 +58,12 @@ export const useDataSource = (
         const defaultValue = isFunction(col.defaultValue) ? col!.defaultValue(row, col, index) : col.defaultValue;
         const value = col.prop ? row[col.prop] : '';
 
-        if (col.format && isFunction(col.format)) return {
-            value: col.format(row, col, index) || defaultValue,
-            originalValue: value,
-            status: ''
+        if (col.format && isFunction(col.format)) {
+            return {
+                value: col.format(row, col, index) ?? defaultValue,
+                originalValue: value,
+                status: ''
+            }
         }
         let text = value ?? defaultValue;
         let status: string | undefined;
@@ -101,6 +104,7 @@ export const useDataSource = (
      * @param rowIndex
      */
     function handleDataItemByColumn(row: TableRow, col: TableCol, rowIndex: number) {
+
         const {originalValue, status, value} = getDataValues(row, col, rowIndex);
         const key = col.isFormat ? `${col.prop!}_format` : col.prop!;
 
@@ -156,22 +160,14 @@ export const useDataSource = (
     }
 
     const getDataSourceRef = computed(() => {
-        const dataSource = unref(dataSourceRef);
-        if (!dataSource || dataSource.length === 0) {
-            return dataSource
-        }
-        const rowKey = unref(getRowKey);
-        const data = deepClone(unref(dataSourceRef));
-        handleDataItem(data, rowKey);
-        dataSourceRef.value = data;
-        return unref(dataSourceRef)
+        return toRaw(unref(dataSourceFormatRef));
     })
 
     const setDataSource = (data: TableRow[]) => {
         setProps({dataSource: data});
     }
     const getDataSource = () => {
-        return toRaw(unref(getDataSourceRef)) as TableRow[];
+        return toRaw(unref(dataSourceFormatRef)) as TableRow[];
     }
 
     /**
@@ -281,6 +277,24 @@ export const useDataSource = (
                 dataSourceRef.value = list;
             }
             setPagination({total});
+        }
+    )
+
+    watch(
+        () => dataSourceRef.value,
+        async () => {
+            const dataSource = unref(dataSourceRef);
+            if (!dataSource || dataSource.length === 0) {
+                dataSourceFormatRef.value = []
+            } else {
+                const rowKey = unref(getRowKey);
+                const data = unref(dataSourceRef);
+                handleDataItem(data, rowKey);
+                dataSourceFormatRef.value = data;
+            }
+        },
+        {
+            deep: true
         }
     )
 

@@ -5,8 +5,8 @@
             <template v-if="$slots.button">
                 <div class="com-table-header__button-wrap">
                     <slot name="button"></slot>
+                    <el-divider v-if="toolbar" class="com-table-header__button-divider" direction="vertical"></el-divider>
                 </div>
-                <el-divider direction="vertical"></el-divider>
             </template>
             <div class="com-table-settings" v-if="toolbar">
                 <el-tooltip content="刷新" placement="top">
@@ -293,5 +293,14 @@ export default defineComponent({
     justify-content: center;
     margin-right: 4px;
     cursor: move;
+}
+.com-table-header__button-divider{
+    display: none;
+    margin-left: 16px;
+}
+.el-button + .com-table-header__button-divider,
+.com-table-header__slot + .com-table-header__button-divider,
+.router-link + .com-table-header__button-divider{
+    display: inline-block;
 }
 </style>

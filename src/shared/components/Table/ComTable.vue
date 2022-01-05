@@ -27,7 +27,7 @@
             @sort-change="handleSortChange"
             @select="onSelectionChange"
             @select-all="onSelectAll"
-            @row-click="getBindProps.onRowClick">
+            @row-click="onRowClick">
             <template v-for="col in getViewColumns">
                 <template v-if="col.children && col.children.length > 0">
                     <el-table-column :label="col.label">
@@ -79,10 +79,9 @@
 </template>
 
 <script lang="ts">
-import {ComputedRef, onMounted} from 'vue';
-import {computed, defineComponent, provide, ref, unref} from 'vue';
+import {computed, ComputedRef, defineComponent, onMounted, provide, ref, unref} from 'vue';
 import {useDataSource} from './hooks/useDataSource';
-import type {TableActionType, TableProps, TableRow} from "/@/shared/components/Table/types/table";
+import type {TableActionType, TableCol, TableProps, TableRow} from "/@/shared/components/Table/types/table";
 import {useColumns} from "/@/shared/components/Table/hooks/useColumns";
 import {useTree} from "/@/shared/components/Table/hooks/useTree";
 import {isFunction} from "/@/shared/components/Table/utils";
@@ -94,12 +93,8 @@ import {usePagination} from "/@/shared/components/Table/hooks/usePagination";
 import {useHeader} from "/@/shared/components/Table/hooks/useHeader";
 import {useForm} from "/@/shared/components/Form/hooks/useForm";
 import {FormSchema} from "/@/shared/components/Form/types/form";
-import {
-    ElTable,
-    ElTableColumn,
-    ElPagination,
-    ElButton
-} from 'element-plus';
+import {ElButton, ElPagination, ElTable, ElTableColumn} from 'element-plus';
+import {useRadio} from "/@/shared/components/Table/hooks/useRadio";
 
 export default defineComponent({
     name: "ComTable",
@@ -256,6 +251,7 @@ export default defineComponent({
             getTableRef
         }
         emit('register', tableAction);
+
         // +----------------------------------------------------------------------
         // | 表单
         // +----------------------------------------------------------------------
@@ -291,14 +287,22 @@ export default defineComponent({
         // | 样式
         // +----------------------------------------------------------------------
 
+        const isRadioRef = computed(() => {
+            return unref(getViewColumns).some(({type}) => type === 'radio');
+        })
+
+
         const getRowStyle = ({row}: { row: TableRow }) => {
             let style = '';
-            const {rowStyle} = unref(getProps);
+            const {rowStyle, onRowClick} = unref(getProps);
             if (isFunction(rowStyle)) {
                 style += rowStyle({row});
             }
             if (unref(getViewColumns)[0]?.type === 'tree') {
                 style += treeRowStyle({row});
+            }
+            if(unref(isRadioRef) || isFunction(onRowClick)){
+                style += 'cursor:pointer;'
             }
             return style;
         };
@@ -327,15 +331,46 @@ export default defineComponent({
             toggleRowSelection
         });
 
+        // +----------------------------------------------------------------------
+        // | 单选
+        // +----------------------------------------------------------------------
+
+        const {radioSelectionRef} = useRadio({getProps, getRowKey, getDataSourceRef})
+
+        provide('USE_RADIO', {radioSelectionRef});
+
+        // +----------------------------------------------------------------------
+        // | 行点击
+        // +----------------------------------------------------------------------
+        const onRowClick = (row: TableRow, column: TableCol) => {
+
+            //radio
+            if (unref(isRadioRef)) {
+                radioSelectionRef.value = row[unref(getRowKey)];
+            }
+            const {onRowClick} = unref(getBindProps);
+            if (isFunction(onRowClick)) {
+                onRowClick(row, column);
+            }
+        }
+
         onMounted(() => {
             //设置默认选中项
             if (unref(getViewColumns).some(({type}) => type === 'selection')) {
                 if (unref(getProps).defaultSelection?.length) {
                     const defaultSelection = unref(getProps).defaultSelection!;
+                    const selection = [];
                     for (let i = 0, len = defaultSelection.length; i < len; i++) {
                         const key: string = defaultSelection[i];
                         const row = unref(getDataSourceMapByKey)[key];
-                        row && toggleRowSelection(row, true)
+                        if (row) {
+                            toggleRowSelection(row, true);
+                            selection.push(row);
+                        }
+                    }
+                    const {onSelectionChange} = unref(getProps);
+                    if (isFunction(onSelectionChange)) {
+                        onSelectionChange({selection})
                     }
                 }
             }
@@ -365,7 +400,8 @@ export default defineComponent({
             tableSizeRef,
             handleReset,
             handleSearch,
-            formRegister
+            formRegister,
+            onRowClick
         }
     }
 })
@@ -394,6 +430,22 @@ export default defineComponent({
     .el-table__expand-column {
         visibility: hidden;
         overflow: hidden;
+    }
+}
+
+.com-table__radio {
+    .el-radio__label {
+        display: none;
+    }
+
+    .el-radio__inner {
+        width: 18px;
+        height: 18px;
+
+        &:after {
+            width: 8px;
+            height: 8px;
+        }
     }
 }
 

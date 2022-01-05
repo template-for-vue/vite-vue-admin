@@ -1,5 +1,5 @@
 import {unref} from 'vue';
-import {isDate, isNullOrUnDef, isObject, isRegExp} from "/@/shared/utils/is";
+import {isArray, isDate, isNullOrUnDef, isObject, isRegExp} from "/@/shared/utils/is";
 
 export function getDynamicProps<T, U>(props: T): Partial<U> {
     const ret: Recordable = {};
@@ -24,11 +24,18 @@ export function deepClone(target: any): any {
     if (isNullOrUnDef(target)) return target;
     if (isDate(target)) return new Date(target);
     if (isRegExp(target)) return new RegExp(target);
-    if (!isObject(target)) return target;
-    let clone: any = {};
-    for (const key in target) {
-        if (target.hasOwnProperty(key)) {
-            clone[key] = deepClone(target[key]);
+    let clone: any = target;
+    if (isArray(target)) {
+        clone = [];
+        for (let i = 0; i < target.length; i++) {
+            clone.push(deepClone(target[i]));
+        }
+    } else if (isObject(target)) {
+        clone = {};
+        for (let key in target) {
+            if (target.hasOwnProperty(key)) {
+                clone[key] = deepClone(target[key]);
+            }
         }
     }
     return clone;
@@ -53,3 +60,16 @@ export const isEqual = (arr1: (string | number)[], arr2: (string | number)[]): B
     }
     return true;
 }
+
+/**
+ * 优化JSON解析方法
+ * @param str
+ * @returns {*}
+ */
+export const jsonParse = (str: string) => {
+    try {
+        return JSON.parse(str);
+    } catch (e) {
+        return str;
+    }
+};

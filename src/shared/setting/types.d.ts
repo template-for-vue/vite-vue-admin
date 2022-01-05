@@ -22,6 +22,8 @@ export interface ProjectSetting {
     wxAppid: string;
     // 企业微信授权方网页应用ID
     wxAgentId: string;
+    // ass_api 授权ticket
+    assTicket: string;
 }
 
 export interface ProjectSettingWrap {

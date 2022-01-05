@@ -1,4 +1,4 @@
-import {defineComponent, h, Suspense, ref} from "vue";
+import {defineComponent, h, ref} from "vue";
 import {usePop} from "/@/shared/components/hook/utils/usePop";
 import {isNullOrUnDef, isNumber} from "/@/shared/utils/is";
 import script from '/@/shared/components/hook/dialog/index.vue';
@@ -61,26 +61,18 @@ export const useDialog = () => {
                     {},
                     {
                         default: () => {
-                            return h(
-                                Suspense,
-                                null,
-                                {
-                                    default: () => {
-                                        this.component.inheritAttrs = false;
-                                        const render = this.component.render;
-                                        this.component.render = function (vm: any) {
-                                            setTimeout(() => {
-                                                getComponentActions.value = {
-                                                    onOk: vm?.ok,
-                                                    onCancel: vm?.cancel
-                                                };
-                                            }, 0)
-                                            return render(...arguments);
-                                        }
-                                        return h(this.component, this.props);
-                                    }
-                                }
-                            )
+                            this.component.inheritAttrs = false;
+                            const render = this.component.render;
+                            this.component.render = function (vm: any) {
+                                setTimeout(() => {
+                                    getComponentActions.value = {
+                                        onOk: vm?.ok,
+                                        onCancel: vm?.cancel
+                                    };
+                                }, 0)
+                                return render(...arguments);
+                            }
+                            return h(this.component, this.props);
                         }
                     }
                 );

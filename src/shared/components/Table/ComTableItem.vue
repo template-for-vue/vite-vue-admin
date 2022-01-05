@@ -6,6 +6,13 @@
         :selectable="({disabled}) => !disabled">
     </el-table-column>
     <el-table-column
+        v-else-if="column.type === 'radio'"
+        v-bind="column">
+        <template #default="scope">
+            <el-radio class="com-table__radio" v-model="radioSelectionRef" :label="scope.row[tableProps.rowKey]"></el-radio>
+        </template>
+    </el-table-column>
+    <el-table-column
         v-else-if="column.type === 'tree'"
         v-bind="column"
         type="default">
@@ -50,7 +57,7 @@
                 <!-- input -->
                 <template v-if="column.type === 'input'">
                     <el-input v-model="scope.row[`${column.prop}_input`]"
-                              :placeholder="column.input?.placeholder || '请输入'"
+                              :placeholder="column.input?.placeholder || `${column.label}`"
                               :disabled="scope.row[`${column.prop}_disabled`]"
                               size="mini"
                               @blur="handleBlur($event,scope.row,column.input?.onBlur)"
@@ -59,20 +66,21 @@
                 <!-- button -->
                 <template v-else-if="column.type === 'button'">
                     <template v-for="btn in column.buttons">
-                        <el-button
-                            v-if="!btn.vif || btn.vif(scope.row,scope.$index)"
-                            type="text"
-                            :class="btn.className"
-                            @click.stop="handleButtonClick(scope.row,scope.$index,btn)"
-                        >{{ btn.text(scope.row) }}
-                        </el-button>
+                        <template v-if="!btn.vif || btn.vif(scope.row,scope.$index)">
+                            <el-button
+                                type="text"
+                                :class="btn.className"
+                                @click.stop="handleButtonClick(scope.row,scope.$index,btn)"
+                            >{{ btn.text(scope.row) }}
+                            </el-button>
+                        </template>
                     </template>
                 </template>
                 <!-- link -->
                 <a v-else-if="column.type === 'link'" class="el-table-column__link"
-                   @click.stop.prevent="column.click(scope.row,scope.$index)">{{
-                        scope.row[getColumnKey(column)]
-                    }}</a>
+                   @click.stop.prevent="column?.click?.(scope.row,scope.$index)">
+                    {{ scope.row[getColumnKey(column)] }}
+                </a>
                 <!-- tag -->
                 <el-tag v-else-if="column.type === 'tag'" :type="scope.row[`${column.prop}_status`]"
                         :size="getTagSizeRef">
@@ -84,11 +92,15 @@
                 </com-badge>
                 <!-- 普通内容 -->
                 <template v-else>
-                    <span class="el-table-column__unset" v-if="!scope.row[getColumnKey(column)] && scope.row[getColumnKey(column)] !== 0">未设置</span>
+                    <span class="el-table-column__unset"
+                          v-if="!scope.row[getColumnKey(column)] && scope.row[getColumnKey(column)] !== 0">未设置</span>
                     <template v-else-if="column.showOverflowTooltip">
-                        {{ scope.row[getColumnKey(column)] }}
+                        <span @click.prevent="column?.click?.(scope.row,scope.$index)">
+                            {{ scope.row[getColumnKey(column)] }}
+                        </span>
                     </template>
-                    <div v-else v-html="scope.row[getColumnKey(column)]"></div>
+                    <div v-else v-html="scope.row[getColumnKey(column)]"
+                         @click.prevent="column?.click?.(scope.row,scope.$index)"></div>
                 </template>
             </slot>
         </template>
@@ -106,12 +118,12 @@ import {
 } from "/@/shared/components/Table/types/table";
 import {isFunction} from "/@/shared/components/Table/utils";
 import {useConfirm} from "/@/shared/components/hook/confirm/useConfirm";
-import {ElTableColumn, ElTag, ElButton, ElInput} from 'element-plus';
+import {ElTableColumn, ElTag, ElButton, ElInput, ElRadio} from 'element-plus';
 
 export default defineComponent({
     name: "ComTableItem",
     inheritAttrs: false,
-    components: {ElTableColumn, ElTag, ElButton, ElInput},
+    components: {ElTableColumn, ElTag, ElButton, ElInput, ElRadio},
     props: {
         tableProps: {
             type: Object as PropType<TableProps>,
@@ -135,6 +147,12 @@ export default defineComponent({
         const handleBlur = (e: any, row: TableRow, callback: Fn) => {
             if (isFunction(callback)) callback(row, e?.target?.value);
         };
+
+        // +----------------------------------------------------------------------
+        // | 单选
+        // +----------------------------------------------------------------------
+
+        const {radioSelectionRef} = inject('USE_RADIO') as any;
 
         // +----------------------------------------------------------------------
         // | 展开
@@ -184,8 +202,8 @@ export default defineComponent({
             return sizeMap[size];
         })
 
-        const getColumnKey = (col:TableCol) => {
-            return col.isFormat ? `${ col.prop }_format` : col.prop
+        const getColumnKey = (col: TableCol) => {
+            return col.isFormat ? `${col.prop}_format` : col.prop
         }
 
         return {
@@ -199,7 +217,8 @@ export default defineComponent({
             getRowKey,
             getTagSizeRef,
             handleButtonClick,
-            getColumnKey
+            getColumnKey,
+            radioSelectionRef
         }
     }
 })

@@ -73,6 +73,7 @@ export const useSelection = (
 
 
     const onSelectionChange = (selection: any, row: TableRow) => {
+
         let resSelection = [...selection];
         const {columns = []} = unref(getProps);
         const isTree = columns[0].type === 'tree';

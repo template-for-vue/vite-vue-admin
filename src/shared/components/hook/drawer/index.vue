@@ -11,7 +11,9 @@
         @close="onPopClosed">
         <template #title>{{ title }}</template>
         <section class="com-drawer-content">
-            <slot v-bind="{...$attrs}"></slot>
+            <suspense>
+                <slot v-bind="{...$attrs}"></slot>
+            </suspense>
         </section>
         <div class="com-drawer-footer" v-if="showOk || showCancel">
             <el-button v-if="showCancel" :type="cancelType" :size="buttonSize" @click="handleDrawerCancel">
@@ -26,7 +28,7 @@
 
 <script lang="ts">
 import {defineComponent, ref} from 'vue';
-import {ElDrawer, ElButton} from 'element-plus';
+import {ElButton, ElDrawer} from 'element-plus';
 
 const noop = () => true;
 export default defineComponent({
@@ -113,7 +115,7 @@ export default defineComponent({
             loading,
             close,
             handleDrawerOk,
-            handleDrawerCancel,
+            handleDrawerCancel
         }
     }
 })

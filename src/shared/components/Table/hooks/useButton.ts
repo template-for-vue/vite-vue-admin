@@ -1,7 +1,12 @@
 import type {ComputedRef} from "vue";
 import {unref} from "vue";
-import {TableColButton, TableColButtonPop, TableProps} from "/@/shared/components/Table/types/table";
-import {isArray, isBoolean, isFunction} from "/@/shared/components/Table/utils";
+import {
+    TableColButton,
+    TableColButtonPop,
+    TableColButtonRouter,
+    TableProps
+} from "/@/shared/components/Table/types/table";
+import {isArray, isBoolean, isFunction, isString} from "/@/shared/components/Table/utils";
 import {warn} from "/@/shared/components/Table/utils/log";
 import {isObject} from "/@/shared/utils/is";
 
@@ -32,9 +37,14 @@ export const useButton = (buttons: TableColButton[] = [], getProps: ComputedRef<
         //text
         const text = btn.text || '';
         if (!isFunction(text)) btn.text = (() => text) as any;
-        //点击事件
-        btn.click = isFunction(btn.click) ? btn.click : () => {
-            warn('请设置click方法')
+        //link
+        if (btn.router) {
+            btn.router = (isString(btn.router) ? {path: btn.link} : btn.router) as TableColButtonRouter;
+        }else{
+            //点击事件
+            btn.click = isFunction(btn.click) ? btn.click : () => {
+                warn('请设置click方法')
+            }
         }
         tempButtons.push(btn);
     }

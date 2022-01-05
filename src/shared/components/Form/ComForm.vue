@@ -43,7 +43,7 @@ export default defineComponent({
         // +----------------------------------------------------------------------
         // | 基础变量
         // +----------------------------------------------------------------------
-        const formModel = reactive<Recordable>({});
+        const formModel = reactive<Recordable>(props.modelValue || {});
         const propsRef = ref<Partial<FormProps>>({});
         const schemaRef = ref<Nullable<FormSchema[]>>(null);
         const formElRef = ref<Nullable<FormActionType>>(null);

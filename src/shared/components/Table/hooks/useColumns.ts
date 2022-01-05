@@ -60,6 +60,11 @@ export const useColumns = (
                 col.width = column.width ?? '36px';
                 col.flag = INDEX_COLUMN_FLAG;
                 break;
+            case 'radio':
+                col.label = '\\';
+                col.width = column.width ?? '40px';
+                col.flag = INDEX_COLUMN_FLAG;
+                break;
             case 'link':
                 !isFunction(column.click) && (col.type = undefined);
                 break;
@@ -86,7 +91,7 @@ export const useColumns = (
         if (!col.prop) {
             col.prop = 'col_' + (pIndex ? `${pIndex}_` : '') + currIndex;
         }
-        if(col.format && isFunction(col.format)) col.isFormat = true;
+        if (col.format && isFunction(col.format)) col.isFormat = true;
         col.columnKey = col.prop;
 
         //排序相关
@@ -119,13 +124,22 @@ export const useColumns = (
     )
 
     const hasPermission = (column: TableCol) => {
-        const {vColumnAuth} = unref(getProps);
-        let columnAuths = (isFunction(vColumnAuth) ? vColumnAuth?.() : vColumnAuth) || [];
-        columnAuths = isObject(columnAuths) ? Object.keys(columnAuths) : columnAuths;
+        const {vColumnAuth, vExColumnAuth} = unref(getProps);
+        if(!isNullOrUnDef(vColumnAuth)){
+            let columnAuths = (isFunction(vColumnAuth) ? vColumnAuth?.() : vColumnAuth) || [];
+            columnAuths = isObject(columnAuths) ? Object.keys(columnAuths) : columnAuths;
+            return column.flag === ACTION_COLUMN_FLAG ||
+                column.flag === INDEX_COLUMN_FLAG ||
+                columnAuths.length === 0 ||
+                columnAuths.includes(column.prop);
+        }
+        let exColumnAuths = (isFunction(vExColumnAuth) ? vExColumnAuth?.() : vExColumnAuth) || [];
+        exColumnAuths = isObject(exColumnAuths) ? Object.keys(exColumnAuths) : exColumnAuths;
         return column.flag === ACTION_COLUMN_FLAG ||
             column.flag === INDEX_COLUMN_FLAG ||
-            columnAuths.length === 0 ||
-            columnAuths.includes(column.prop);
+            exColumnAuths.length === 0 ||
+            !exColumnAuths.includes(column.prop);
+
     };
 
     const getViewColumns = computed(() => {

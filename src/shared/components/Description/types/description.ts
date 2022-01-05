@@ -44,6 +44,8 @@ export interface DescriptionProps {
      */
     size?: 'mini' | 'small' | 'medium' | 'large';
 
+    [key: string]: any;
+
 }
 
 export interface DescriptionItem {

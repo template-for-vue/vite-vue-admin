@@ -5,8 +5,8 @@ import {isFunction, sleep} from "/@/shared/components/Table/utils";
 
 export const useExpand = (
     getProps: ComputedRef<TableProps>,
-    getRowKey:ComputedRef<string>,
-    getDataSourceRef:ComputedRef<TableRow[]>
+    getRowKey: ComputedRef<string>,
+    getDataSourceRef: ComputedRef<TableRow[]>
 ) => {
 
     const expands = ref<any[]>(unref(getProps).expandRowKeys || [])
@@ -23,13 +23,13 @@ export const useExpand = (
         }
     }
 
-    const {onExpandChange = (() => true)} = unref(getProps);
     const expandClick = async (row: TableRow) => {
         const id = row[key];
         if (!id) return warn('请设置正确的rowKey');
+        const {onExpandChange = (() => true)} = unref(getProps);
         if (isFunction(onExpandChange)) {
             const isWillExpand = expands.value.indexOf(id) === -1;
-            const actions = [onExpandChange({row, isWillExpand})];
+            const actions = [onExpandChange(row, isWillExpand)];
             if (isWillExpand) {
                 actions.push(sleep(60));
                 row.loading = true;

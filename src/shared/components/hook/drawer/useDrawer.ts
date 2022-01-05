@@ -1,4 +1,4 @@
-import {defineComponent, Suspense, h, ref} from "vue";
+import {defineComponent, h, ref} from "vue";
 import {usePop} from "/@/shared/components/hook/utils/usePop";
 import script from '/@/shared/components/hook/drawer/index.vue';
 import {isNullOrUnDef, isNumber} from "/@/shared/utils/is";
@@ -6,12 +6,17 @@ import {isNullOrUnDef, isNumber} from "/@/shared/utils/is";
 interface useDrawerAttrs {
     size?: string | number;
     title?: string;
+    showOk?: boolean;
+    okText?: string;
+    showCancel?: boolean;
+    cancelText?: string;
     direction?:
         | 'rtl'
         | 'ltr'
         | 'ttb'
         | 'btt';
 }
+
 const noop: any = () => true;
 export const useDrawer = () => {
 
@@ -56,26 +61,18 @@ export const useDrawer = () => {
                     {},
                     {
                         default: () => {
-                            return h(
-                                Suspense,
-                                null,
-                                {
-                                    default: () => {
-                                        this.component.inheritAttrs = false;
-                                        const render = this.component.render;
-                                        this.component.render = function (vm: any) {
-                                            setTimeout(() => {
-                                                getComponentActions.value = {
-                                                    onOk: vm?.ok,
-                                                    onCancel: vm?.cancel
-                                                };
-                                            }, 0)
-                                            return render(...arguments);
-                                        }
-                                        return h(this.component, this.props);
-                                    }
-                                }
-                            )
+                            this.component.inheritAttrs = false;
+                            const render = this.component.render;
+                            this.component.render = function (vm: any) {
+                                setTimeout(() => {
+                                    getComponentActions.value = {
+                                        onOk: vm?.ok,
+                                        onCancel: vm?.cancel
+                                    };
+                                }, 0)
+                                return render(...arguments);
+                            }
+                            return h(this.component, this.props);
                         }
                     }
                 );
@@ -86,6 +83,7 @@ export const useDrawer = () => {
             }
 
         }
+
         return new Drawer();
     }
 

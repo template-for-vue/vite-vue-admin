@@ -14,7 +14,7 @@ const projectSetting: ProjectSetting = {
     openKeepAlive: true,
 
     // 使用error-handler
-    useErrorHandler: true,
+    useErrorHandler: false,
 
     // 是否开启登录安全校验
     openLoginVerify: true,
@@ -33,7 +33,10 @@ const projectSetting: ProjectSetting = {
     wxAppid: 'wwb8187ef61927b720',
 
     // 企业微信授权方网页应用ID
-    wxAgentId: '1000002'
+    wxAgentId: '1000002',
+
+    // ass_api 授权ticket
+    assTicket:'ticket123',
 };
 
 export default projectSetting;

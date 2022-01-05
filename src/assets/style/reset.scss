@@ -29,6 +29,10 @@ body {
     font-feature-settings: "tnum";
 }
 
+pre{
+    font-family: inherit;
+}
+
 html, body {
     height: 100%;
 }
@@ -100,4 +104,10 @@ img, video {
 table {
     border-collapse: collapse;
     border-spacing: 0;
+}
+
+.login-barcode{
+    iframe{
+        height: 300px !important;
+    }
 }

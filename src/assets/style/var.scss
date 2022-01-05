@@ -4,7 +4,7 @@ body {
     --el-popover-border-radius: 1.5px;
     --el-disabled-border-base: transparent;
     --el-disabled-color-base: #e1e1e1;
-    --el-input-background-color: #f2f3f5;
+    --el-input-background-color: #fff;
     --el-background-color-base: #f7f8fa;
     //--el-color-primary: #0960bd;
     --el-color-primary: #2c52b5;
@@ -30,9 +30,13 @@ body {
     --hover-color-input: rgb(229, 230, 235);
 }
 
-.com-body{
+.com-body {
     .el-textarea,
     .el-input {
-        --el-input-bg-color: #f2f3f5;
+        --el-input-bg-color: var(--el-input-background-color);
+    }
+
+    .el-dialog {
+        --el-dialog-margin-top: 5vh;
     }
 }

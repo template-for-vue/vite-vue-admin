@@ -8,7 +8,7 @@ import {isFunction, sleep} from "/@/shared/components/Table/utils";
 export const useTree = (
     getProps: ComputedRef<TableProps>,
     getRowKey: ComputedRef<string>,
-    getDataSourceRef:ComputedRef<TableRow[]>
+    getDataSourceRef: ComputedRef<TableRow[]>
 ) => {
 
     const expandGroups: Ref<number[][]> = ref(unref(getProps).expandRowKeys || []);
@@ -25,7 +25,7 @@ export const useTree = (
 
     const treeRowStyle = (({row}: TableRow) => {
         const pid = row[unref(treeExpandProps).pid!];
-        return pid === 0 || treeExpands.value.includes(pid) ? '' : 'display:none';
+        return pid === 0 || treeExpands.value.includes(pid) ? '' : 'display:none;';
     })
     const handleExpandChange = (row: TableRow, isExpand: boolean) => {
         const id = row[unref(treeExpandProps).id!];

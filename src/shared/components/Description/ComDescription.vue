@@ -60,7 +60,7 @@ export default defineComponent({
         // | 设置 属性
         // +----------------------------------------------------------------------
 
-        const propsRef = ref<Partial<DescriptionProps> | null>(null);
+        const propsRef = ref<Partial<DescriptionProps> | null>({});
         const getPropsRef = computed(() => {
             return {
                 ...props,
@@ -144,7 +144,7 @@ export default defineComponent({
     }
 }
 
-.com-description-header{
+.com-description-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -153,7 +153,7 @@ export default defineComponent({
     user-select: none
 }
 
-.com-description-title{
+.com-description-title {
     padding-left: 8px;
     font-size: 16px;
     font-weight: 500;
@@ -161,7 +161,7 @@ export default defineComponent({
     user-select: none;
 }
 
-.com-description-extra{
+.com-description-extra {
     display: flex;
     flex: 1;
     align-items: center;
